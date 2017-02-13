@@ -1,0 +1,21 @@
+.storyView {
+    margin-bottom: 60px;
+    margin-top: 25px;
+}
+
+.textAreaLabel {
+    text-align: center;
+}
+
+.storyView textarea {
+    font-size: 25px;
+    color: #28cabc;
+}
+
+.codeView {
+    margin-top: 30px;
+}
+
+.btn.apply {
+    width: 200px;
+}

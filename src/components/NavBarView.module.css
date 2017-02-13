@@ -1,0 +1,9 @@
+span.pre {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    background-color: #fbfbfb;
+    padding: 2px 8px 3px 7px;
+    border: 1px #e4e4e4 solid;
+    border-radius: 4px;
+    color: #6f6f6f;
+    font-weight: lighter;
+}

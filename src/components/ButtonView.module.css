@@ -1,0 +1,15 @@
+.buttonView {
+    margin-top: 100px;
+}
+
+.buttonContainer {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.btn.initialButton {
+    width: 240px;
+    height: 80px;
+    border-width: 3px;
+    font-size: 23px;
+}
