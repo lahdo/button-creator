@@ -8,7 +8,7 @@ export default class NavBar extends Component {
             <Navbar inverse fixedTop>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="/"><strong>Button Creator</strong>. Generate <span className="pre">code</span> for a button from User Story.</a>
+                        <a href="/"><strong>Button Creator</strong>. Generate <span className="pre">code</span> for a button from the User Story.</a>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
