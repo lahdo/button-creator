@@ -12,6 +12,7 @@ export default class ButtonView extends Component {
                             <div className="center-block">
                                 <Button
                                     className="initialButton center-block btn-lg"
+                                    style={this.props.styles}
                                     onClick={this.open}
                                     block={true}
                                     bsStyle="default">
@@ -34,7 +35,7 @@ export default class ButtonView extends Component {
                             </Col>
                             <Col md={3}>
                                 <h4>CSS</h4>
-                                <pre>css code here</pre>
+                                <pre>{this.props.message}</pre>
                                 {/*<pre>*/}
                                 {/*.my-button {*/}
                                 {/*background: red;*/}
