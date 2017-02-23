@@ -1,21 +1,21 @@
-.storyView {
-    margin-bottom: 60px;
-    margin-top: 25px;
+.storyInputView {
+    margin-bottom: 45px;
 }
 
 .textAreaLabel {
     text-align: center;
 }
 
-.storyView textarea {
+.storyInputView input {
     font-size: 25px;
     color: #28cabc;
-}
-
-.codeView {
-    margin-top: 30px;
+    padding: 23px 10px;
 }
 
 .btn.apply {
     width: 200px;
+}
+
+form {
+    margin-top: -23px;
 }

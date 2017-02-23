@@ -1,0 +1,681 @@
+{
+  "background": {
+    "example_1": "#00ff00 url('smiley.gif') no-repeat fixed center;",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "background-color": {
+    "example_1": "yellow",
+    "example_2": "#00ff00",
+    "example_3": "rgb(255,0,255)",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-bottom": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-bottom-style": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-color": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-left-color": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-left-width": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-right-color": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-right-width": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-top": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-top-style": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-width": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "clear": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "color": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "display": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "float": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "font-family": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "font-style": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "font-weight": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "height": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "layout-grid": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "left": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "line-height": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "margin-bottom": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "margin-right": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "padding": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "padding-left": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "padding-top": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "pixelBottom(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "pixelLeft(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "pixelTop(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "posBottom(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "position": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "posRight(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "posWidth(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "styleFloat(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "text-decoration": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "text-overflow": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "text-underline-position": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "textDecorationLineThrough(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "textDecorationOverline(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "top": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "visibility": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "word-spacing": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "writing-mode": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "zoom": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "background-attachment": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "background-image": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "background-position-x": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "background-repeat": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-bottom-color": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-bottom-width": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-left": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-left-style": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-right": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-right-style": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-style": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-top-color": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "border-top-width": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "bottom": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "clip": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "direction": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "filter": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "font": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "font-size": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "font-variant": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "hasLayout(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "layout-flow": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "layout-grid-mode": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "letter-spacing": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "margin": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "margin-left": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "margin-top": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "padding-bottom": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "padding-right": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "page-break-after": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "pixelHeight(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "pixelRight(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "pixelWidth(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "posHeight(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "posLeft(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "posTop(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "right": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "text-autospace": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "text-indent": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "text-transform": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "textDecorationBlink(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "textDecorationNone(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "textDecorationUnderline(*)": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "unicode-bidi": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "width": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "word-wrap": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "z-index": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "background-position": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "background-position-y": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  },
+  "behavior": {
+    "example_1": "",
+    "example_2": "",
+    "example_3": "",
+    "example_4": "",
+    "example_5": ""
+  }
+}

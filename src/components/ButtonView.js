@@ -26,25 +26,6 @@ export default class ButtonView extends Component {
                             < hr/>
                         </Col>
                     </Row>
-                    <Row>
-                        <div className="codeView">
-                            <Col md={3} mdOffset={3}>
-                                <h4>HTML</h4>
-                                <pre>html code here</pre>
-                                {/*<pre dangerouslySetInnerHTML={{__html: "<button class=""></button>"}}></pre>*/}
-                            </Col>
-                            <Col md={3}>
-                                <h4>CSS</h4>
-                                <pre>{this.props.message}</pre>
-                                {/*<pre>*/}
-                                {/*.my-button {*/}
-                                {/*background: red;*/}
-                                {/*padding: 20px;*/}
-                                {/*}*/}
-                                {/*</pre>*/}
-                            </Col>
-                        </div>
-                    </Row>
                 </Grid>
             </div>
         );

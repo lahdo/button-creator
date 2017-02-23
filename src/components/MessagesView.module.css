@@ -1,0 +1,19 @@
+.messagesView {
+
+}
+
+.chat {
+    overflow-y: auto;
+    height:180px;
+    padding-bottom: 11px;
+}
+
+.bubble{
+    background-color: #0084ff;
+    color: white;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 2px 15px 15px 15px;
+    padding: 10px 18px;
+    margin: 5px 0 4px 0;
+}
