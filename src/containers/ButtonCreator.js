@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {each} from 'lodash';
-import fetch from 'isomorphic-fetch';
-import {Wit, log} from 'node-wit';
+import {Wit} from 'node-wit';
 import {find} from 'lodash';
 import has from 'lodash/has';
 
@@ -12,7 +11,6 @@ import ButtonView from '../components/ButtonView.js';
 import StoryInputView from '../components/StoryInputView.js';
 import CodeView from '../components/CodeView.js';
 import MessagesView from '../components/MessagesView.js';
-
 import cssAttributes from '../other/cssAttributesShort';
 
 const WITAIKEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
@@ -25,21 +23,24 @@ export default class ButtonCreator extends Component {
             buttonHtml: '',
             styles: {},
             message: '',
-            messages: []
+            messages: [],
+            context: {}
         };
-
-        this.cssAttributes = cssAttributes;
 
         this.setMessage = this.setMessage.bind(this);
         this.understandMessage = this.understandMessage.bind(this);
         this.processMessage = this.processMessage.bind(this);
         this.parseResponse = this.parseResponse.bind(this);
         this.updateStyles = this.updateStyles.bind(this);
+        this.updateMessages = this.updateMessages.bind(this);
+
         ButtonCreator.convertAttribute = ButtonCreator.convertAttribute.bind(this);
     }
 
     componentDidMount() {
-        this.setState({'buttonHtml': '<button class="my-button"></button>'});
+        const initialHtml = '<button class="my-button"></button>';
+
+        this.setState({'buttonHtml': initialHtml});
         this.client = new Wit({accessToken: WITAIKEY});
     }
 
@@ -49,23 +50,14 @@ export default class ButtonCreator extends Component {
 
     processMessage(message) {
         this.understandMessage(message);
-
-        const messages = [
-            ...this.state.messages
-        ];
-
-        messages.push({'body': message});
-
-        this.setState({'messages': messages});
-
-
+        this.updateMessages(message);
     }
 
     understandMessage(message) {
         this.client.message(message, {})
             .then((response) => {
                 this.parseResponse(response);
-                console.log('Yay, got Wit.ai response: ' + JSON.stringify(response));
+                // console.log('Yay, got Wit.ai response: ' + JSON.stringify(response));
             })
             .catch(console.error);
     }
@@ -100,7 +92,7 @@ export default class ButtonCreator extends Component {
         }
 
         each(rawStyles.attributes, function (attribute, index) {
-            const currentAttribute = find(this.cssAttributes, (item) => item.name === attribute);
+            const currentAttribute = find(cssAttributes, (item) => item.name === attribute);
 
             if (currentAttribute && !currentAttribute.hasUnit) {
                 rawStyles.units.splice(index, 0, '')
@@ -122,6 +114,12 @@ export default class ButtonCreator extends Component {
         return attribute.replace(/-([a-z])/gi, function (s, group1) {
             return group1.toUpperCase();
         })
+    }
+
+    updateMessages(message) {
+        const messages = [...this.state.messages];
+        messages.push({'body': message});
+        this.setState({'messages': messages});
     }
 
     updateStyles(styles) {
