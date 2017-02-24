@@ -11,7 +11,7 @@ export default class ButtonView extends Component {
                         <Col md={12}>
                             <div className="center-block">
                                 <Button
-                                    className="initialButton center-block btn-lg"
+                                    className="center-block btn-lg"
                                     style={this.props.styles}
                                     onClick={this.open}
                                     block={true}

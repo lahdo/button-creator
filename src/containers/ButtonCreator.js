@@ -14,7 +14,6 @@ import MessagesView from '../components/MessagesView.js';
 import MessageNormalizer from '../components/MessageNormalizer';
 import ResponseParser from '../components/ResponseParser'
 
-
 const WITAIKEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
 
 export default class ButtonCreator extends Component {
@@ -24,9 +23,11 @@ export default class ButtonCreator extends Component {
         this.state = {
             buttonHtml: '',
             styles: {},
+            rawStyles: {},
             message: '',
             messages: [],
-            context: {}
+            context: {},
+            expandMessages: false
         };
 
         this.setMessage = this.setMessage.bind(this);
@@ -34,12 +35,21 @@ export default class ButtonCreator extends Component {
         this.processMessage = this.processMessage.bind(this);
         this.updateStyles = this.updateStyles.bind(this);
         this.updateMessages = this.updateMessages.bind(this);
+        this.parse = this.parse.bind(this);
+        this.expandMessages = this.expandMessages.bind(this);
     }
 
     componentDidMount() {
         const initialHtml = '<button class="my-button"></button>';
+        const initialStyles = {
+            'width': '240px',
+            'height': '80px',
+            'borderWidth': '3px',
+            'fontSize': '23px'
+        };
 
         this.setState({'buttonHtml': initialHtml});
+        this.updateStyles(initialStyles);
         this.client = new Wit({accessToken: WITAIKEY});
     }
 
@@ -50,22 +60,37 @@ export default class ButtonCreator extends Component {
     processMessage(message) {
         const normalizedMessage = MessageNormalizer.normalize(message);
         this.understandMessage(normalizedMessage);
-        this.updateMessages(message);
+        this.updateMessages(message, 'user');
     }
 
     understandMessage(message) {
         this.client.message(message, {})
             .then((response) => {
-                const newStyles = ResponseParser.parse(response);
+                const newStyles = this.parse(response);
                 this.updateStyles(newStyles);
                 // console.log('Yay, got Wit.ai response: ' + JSON.stringify(response));
             })
             .catch(console.error);
     }
 
-    updateMessages(message) {
+    parse(response) {
+        const rawStyles = ResponseParser.getRawStyles(response);
+        this.setState({'rawStyles': rawStyles});
+        const newStyles = ResponseParser.processRawStyles(rawStyles);
+
+        return newStyles;
+    }
+
+    expandMessages() {
+        this.setState({'expandMessages': true});
+    }
+
+    updateMessages(message, sender) {
         const messages = [...this.state.messages];
-        messages.push({'body': message});
+        messages.push({
+            'body': message,
+            'sender': sender
+        });
         this.setState({'messages': messages});
     }
 
@@ -88,11 +113,14 @@ export default class ButtonCreator extends Component {
                 <ButtonView buttonHtml={this.state.buttonHtml}
                             styles={this.state.styles}
                             message={this.state.message}/>
-                <MessagesView messages={this.state.messages}/>
+                <MessagesView messages={this.state.messages}
+                              expandMessages={this.state.expandMessages}/>
                 <StoryInputView setMessage={this.setMessage}
                                 processMessage={this.processMessage}
+                                expandMessages={this.expandMessages}
                                 message={this.state.message}/>
-                <CodeView buttonHtml={this.state.buttonHtml}
+                <CodeView rawStyles={this.state.rawStyles}
+                          buttonHtml={this.state.buttonHtml}
                           styles={this.state.styles}/>
                 <Footer />
             </Layout>

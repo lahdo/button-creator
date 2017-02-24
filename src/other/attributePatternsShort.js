@@ -2,7 +2,8 @@ const BASE = {
     'canBeNumber': false,
     'canBeText': false,
     'hasUnit': 0, // 0 - no, 1 - yes, 2 - optional,
-    'expectNoOfValues': [1]
+    'expectNoOfValues': [true, false, false, false],
+    'possibleValues': []
 };
 
 export default [
@@ -26,34 +27,34 @@ export default [
         'border': {
             ...BASE,
             'possibleValues': ['initial', 'inherit'],
-            'expectNoOfValues': [1, 3]
+            'expectNoOfValues': [true, false, true, false]
             //     border: 5px solid red;
-},
+        },
         'border-left': {
             ...BASE,
             'possibleValues': ['initial', 'inherit'],
-            'expectNoOfValues': [1, 3]
+            'expectNoOfValues': [true, false, true, false]
             //     border-style: solid;
             //     border-left: thick double #ff0000;
         },
         'border-right': {
             ...BASE,
             'possibleValues': ['initial', 'inherit'],
-            'expectNoOfValues': [1, 3]
+            'expectNoOfValues': [true, false, true, false]
             //     border-style: solid;
             //     border-left: thick double #ff0000;
         },
         'border-bottom': {
             ...BASE,
             'possibleValues': ['initial', 'inherit'],
-            'expectNoOfValues': [1, 3]
+            'expectNoOfValues': [true, false, true, false]
             //     border-style: solid;
             //     border-left: thick double #ff0000;
         },
         'border-top': {
             ...BASE,
             'possibleValues': ['initial', 'inherit'],
-            'expectNoOfValues': [1, 3]
+            'expectNoOfValues': [true, false, true, false]
             //     border-style: solid;
             //     border-left: thick double #ff0000;
         },
@@ -63,19 +64,20 @@ export default [
                 'none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove',
                 'ridge', 'inset', 'outset', 'initial', 'inherit'
             ],
-            'expectNoOfValues': [1, 2, 3, 4]
+            'expectNoOfValues': [true, true, true, true]
             //      border-style: solid;
+            //      border-style: solid;
+            //      border-style:dotted solid double dashed;
+            //      border-style:dotted solid double;
+            //      border-style:dotted solid;
+            //      border-style:dotted;
         },
         'border-color': {
             ...BASE,
             'possibleValues': ['transparent', 'initial', 'inherit'],
             'canBeText': true
-            //      border-style: solid;
             //      border-color: #ff0000 #0000ff;
-            //      border-style:dotted solid double dashed;
-            //      border-style:dotted solid double;
-            //      border-style:dotted solid;
-            //      border-style:dotted;
+
         },
         'color': {
             ...BASE,
@@ -84,7 +86,7 @@ export default [
             //      color: red;
             //      color: #00ff00;
             //      color: rgb(0,0,255);
-},
+        },
         'display': {
             ...BASE,
             'possibleValues': [
@@ -103,7 +105,7 @@ export default [
             ...BASE,
             'possibleValues': ['initial', 'inherit'],
             'canBeText': true,
-            'expectNoOfValues': [1, 2, 3, 4]
+            'expectNoOfValues': [true, true, true, true]
             //      font-family: "Times New Roman", Georgia, Serif;
         },
         'font-style': {
@@ -173,14 +175,14 @@ export default [
             ...BASE,
             'possibleValues': ['auto', 'initial', 'inherit'],
             'canBeNumber': true,
-            'expectNoOfValues': [1, 2, 3, 4],
+            'expectNoOfValues': [true, true, true, true],
             'hasUnit': 1
         },
         'padding': {
             ...BASE,
             'possibleValues': ['initial', 'inherit'],
             'canBeNumber': true,
-            'expectNoOfValues': [1, 2, 3, 4],
+            'expectNoOfValues': [true, true, true, true],
             'hasUnit': 1
         },
         'margin-bottom': {

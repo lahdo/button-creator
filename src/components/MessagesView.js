@@ -30,12 +30,12 @@ export default class MessagesView extends Component {
                         <div className="codeView">
                             <Col md={8} mdOffset={2}>
                                 <div ref={(el) => { this.messagesContainer = el; }}
-                                     className="chat custom-scroll">
+                                     className={"chat custom-scroll " + (this.props.expandMessages ? 'expanded' : '') }>
                                     {
                                         this.props.messages.map(function (message, i) {
                                             return (
-                                                <div key={i}>
-                                                    <div className="bubble" >
+                                                <div className="bubbleContainer" key={i}>
+                                                    <div className={"bubble " + message.sender}>
                                                         {message.body}
                                                     </div>
                                                 </div>

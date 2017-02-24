@@ -15,10 +15,11 @@ export default class StoryInputView extends Component {
     }
 
     handleKeyChange(event) {
-        if (event.key === 'Enter' && this.props.message !== '') {
+        if (event.key === 'Enter' && this.props.message.trim() !== '') {
             event.preventDefault();
             this.props.processMessage(this.props.message);
             this.props.setMessage('');
+            this.props.expandMessages();
         }
     }
 
