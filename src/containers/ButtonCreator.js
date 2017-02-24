@@ -11,7 +11,9 @@ import ButtonView from '../components/ButtonView.js';
 import StoryInputView from '../components/StoryInputView.js';
 import CodeView from '../components/CodeView.js';
 import MessagesView from '../components/MessagesView.js';
-import cssAttributes from '../other/cssAttributesShort';
+import MessageNormalizer from '../components/MessageNormalizer';
+import ResponseParser from '../components/ResponseParser'
+
 
 const WITAIKEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
 
@@ -30,11 +32,8 @@ export default class ButtonCreator extends Component {
         this.setMessage = this.setMessage.bind(this);
         this.understandMessage = this.understandMessage.bind(this);
         this.processMessage = this.processMessage.bind(this);
-        this.parseResponse = this.parseResponse.bind(this);
         this.updateStyles = this.updateStyles.bind(this);
         this.updateMessages = this.updateMessages.bind(this);
-
-        ButtonCreator.convertAttribute = ButtonCreator.convertAttribute.bind(this);
     }
 
     componentDidMount() {
@@ -49,71 +48,19 @@ export default class ButtonCreator extends Component {
     }
 
     processMessage(message) {
-        this.understandMessage(message);
+        const normalizedMessage = MessageNormalizer.normalize(message);
+        this.understandMessage(normalizedMessage);
         this.updateMessages(message);
     }
 
     understandMessage(message) {
         this.client.message(message, {})
             .then((response) => {
-                this.parseResponse(response);
+                const newStyles = ResponseParser.parse(response);
+                this.updateStyles(newStyles);
                 // console.log('Yay, got Wit.ai response: ' + JSON.stringify(response));
             })
             .catch(console.error);
-    }
-
-    parseResponse(response) {
-        const styles = {
-            ...this.state.styles
-        };
-
-        const rawStyles = {
-            attributes: [],
-            values: [],
-            units: []
-        };
-
-        if (has(response.entities, 'attribute')) {
-            each(response.entities.attribute, function (attribute) {
-                rawStyles.attributes.push(ButtonCreator.convertAttribute(attribute.value));
-            }.bind(this));
-        }
-
-        if (has(response.entities, 'unit')) {
-            each(response.entities.unit, function (unit) {
-                rawStyles.units.push(unit.value);
-            }.bind(this));
-        }
-
-        if (has(response.entities, 'value')) {
-            each(response.entities.value, function (value) {
-                rawStyles.values.push(value.value);
-            }.bind(this));
-        }
-
-        each(rawStyles.attributes, function (attribute, index) {
-            const currentAttribute = find(cssAttributes, (item) => item.name === attribute);
-
-            if (currentAttribute && !currentAttribute.hasUnit) {
-                rawStyles.units.splice(index, 0, '')
-            }
-
-            if (rawStyles.units[index]) {
-                styles[attribute] = rawStyles.values[index] + rawStyles.units[index];
-            }
-            else {
-                styles[attribute] = rawStyles.values[index];
-            }
-
-        }.bind(this));
-
-        this.updateStyles(styles);
-    }
-
-    static convertAttribute(attribute) {
-        return attribute.replace(/-([a-z])/gi, function (s, group1) {
-            return group1.toUpperCase();
-        })
     }
 
     updateMessages(message) {
@@ -122,7 +69,15 @@ export default class ButtonCreator extends Component {
         this.setState({'messages': messages});
     }
 
-    updateStyles(styles) {
+    updateStyles(newStyles) {
+        const styles = {
+            ...this.state.styles
+        };
+
+        Object.keys(newStyles).forEach((key) => {
+            styles[key] = newStyles[key];
+        });
+
         this.setState({'styles': styles});
     }
 
