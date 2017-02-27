@@ -15,6 +15,8 @@ import MessageNormalizer from '../components/MessageNormalizer';
 import ResponseParser from '../components/ResponseParser'
 
 const WITAIKEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
+const APP = 'app';
+const USER = 'user';
 
 export default class ButtonCreator extends Component {
     constructor(props) {
@@ -27,7 +29,14 @@ export default class ButtonCreator extends Component {
             message: '',
             messages: [],
             context: {},
-            expandMessages: false
+            expandMessages: false,
+        };
+
+        this.initialStyles = {
+            'width': '240px',
+            'height': '80px',
+            'borderWidth': '3px',
+            'fontSize': '23px'
         };
 
         this.setMessage = this.setMessage.bind(this);
@@ -37,19 +46,14 @@ export default class ButtonCreator extends Component {
         this.updateMessages = this.updateMessages.bind(this);
         this.parse = this.parse.bind(this);
         this.expandMessages = this.expandMessages.bind(this);
+        this.clearStyles = this.clearStyles.bind(this);
     }
 
     componentDidMount() {
         const initialHtml = '<button class="my-button"></button>';
-        const initialStyles = {
-            'width': '240px',
-            'height': '80px',
-            'borderWidth': '3px',
-            'fontSize': '23px'
-        };
 
         this.setState({'buttonHtml': initialHtml});
-        this.updateStyles(initialStyles);
+        this.updateStyles(this.initialStyles);
         this.client = new Wit({accessToken: WITAIKEY});
     }
 
@@ -60,29 +64,40 @@ export default class ButtonCreator extends Component {
     processMessage(message) {
         const normalizedMessage = MessageNormalizer.normalize(message);
         this.understandMessage(normalizedMessage);
-        this.updateMessages(message, 'user');
+        this.updateMessages(message, USER);
     }
 
     understandMessage(message) {
         this.client.message(message, {})
             .then((response) => {
-                const newStyles = this.parse(response);
-                this.updateStyles(newStyles);
-                // console.log('Yay, got Wit.ai response: ' + JSON.stringify(response));
-            })
+                    this.parse(response);
+                }, () => {
+                    this.updateMessages('Sorry, we couldn\'t connect to our language parser', APP);
+                })
             .catch(console.error);
     }
 
     parse(response) {
-        const rawStyles = ResponseParser.getRawStyles(response);
-        this.setState({'rawStyles': rawStyles});
-        const newStyles = ResponseParser.processRawStyles(rawStyles);
+        try {
+            const rawStyles = ResponseParser.getRawStyles(response);
+            this.setState({'rawStyles': rawStyles});
 
-        return newStyles;
+            const newStyles = ResponseParser.processRawStyles(rawStyles);
+            this.updateStyles(newStyles);
+            this.updateMessages('Done!', APP);
+        }
+        catch (error) {
+            this.updateMessages(error.message, APP);
+        }
     }
 
     expandMessages() {
         this.setState({'expandMessages': true});
+    }
+
+    clearStyles() {
+        this.setState({'styles': this.initialStyles});
+        this.updateMessages('Restored default styles', APP);
     }
 
     updateMessages(message, sender) {
@@ -118,6 +133,8 @@ export default class ButtonCreator extends Component {
                 <StoryInputView setMessage={this.setMessage}
                                 processMessage={this.processMessage}
                                 expandMessages={this.expandMessages}
+                                showClearStylesButton={this.state.expandMessages}
+                                clearStyles={this.clearStyles}
                                 message={this.state.message}/>
                 <CodeView rawStyles={this.state.rawStyles}
                           buttonHtml={this.state.buttonHtml}

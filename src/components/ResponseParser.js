@@ -1,9 +1,12 @@
 import attributePatterns from '../other/attributePatternsShort';
 import {each, isNumber, isObject} from 'lodash';
+import find2 from 'lodash/find';
 import has from 'lodash/has';
 import Utils from '../other/Utils'
 var cssValues = require('css-values');
 var valueParser = require('postcss-value-parser');
+
+console.log(attributePatterns);
 
 export default class ResponseParser {
     // static parse(response) {
@@ -12,6 +15,11 @@ export default class ResponseParser {
     //
     //     return newStyles;
     // }
+
+    static isNumeric(x) {
+        return !(isNaN(x)) && (typeof x !== "object") &&
+            (x != Number.POSITIVE_INFINITY) && (x != Number.NEGATIVE_INFINITY);
+    }
 
     static getRawStyles(response) {
         const rawStyles = {
@@ -38,34 +46,24 @@ export default class ResponseParser {
             }.bind(this));
         }
 
+        if (rawStyles.attributes.length > 1) {
+            throw {
+                message: 'Please enter only one characteristic at a time'
+            };
+        }
+
         return rawStyles;
     }
-    
-    static getValues(values, units, attributePattern) {
-        var currentValues = [];
-        attributePattern.expectNoOfValues = attributePattern.expectNoOfValues.reverse();
 
-        attributePattern.expectNoOfValues.forEach((expectedNoOfValue) => {
-            if(expectedNoOfValue && values.length > 3) {
-                if(this.validateValue(values[0])
-                && this.validateValue(values[1])
-                && this.validateValue(values[2])
-                && this.validateValue(values[3])) {
-                    currentValues = values.slice(0, 5);
-                    values = values.slice(5, values.length + 1);
-                }
-            }
-        });
-    }
+    static internalValidation(attribute, value) {
+        const attributePattern = find2(attributePatterns, (item) => item.name === attribute);
 
-    static validateValue(value, attributePattern) {
-        if(attributePattern.canBeText) {
-            return true;
-        }
-        else if (attributePattern.canBeNumber && isNumber(value)) {
-            return true;
-        }
-        else if (attributePattern.possibleValues.includes(value)) {
+        window.find2 = find2;
+
+        window.FFF = attributePatterns;
+        debugger;
+
+        if (attributePattern) {
             return true;
         }
         else {
@@ -73,34 +71,64 @@ export default class ResponseParser {
         }
     }
 
+    static validateValue(attribute, value) {
+        const validationResult = cssValues.default(Utils.camelCaseToDash(attribute), valueParser(value));
+        if (!isObject(validationResult) || this.internalValidation(attribute, value)) {
+            return true
+        }
+        else {
+            throw {
+                message: validationResult.message
+            };
+        }
+    }
+
+    static hasUnit(value) {
+        return this.isNumeric(value);
+    }
+
+    static setValue(values, units) {
+        let attributeValues = '';
+
+        values.forEach((value, index, array) => {
+                if (this.hasUnit(value)) {
+                    if (units.length) {
+                        attributeValues += value + units.shift();
+                    }
+                    else {
+                        attributeValues += value + 'px';
+                    }
+                }
+                else {
+                    attributeValues += value;
+                }
+
+                if (index + 1 < values.length) {
+                    attributeValues += ' ';
+                }
+            }
+        );
+
+        return attributeValues;
+    }
+
     static processRawStyles(rawStyles) {
         const newStyles = {};
 
-        each(rawStyles.attributes, function (attribute, index) {
-            const attributePattern = find(attributePatterns, (item) => item.name === attribute);
+        const attribute = rawStyles.attributes[0];
 
-            if (attributePattern) {
-                if(attributePattern.expectNoOfValues)
+        newStyles[attribute] = this.setValue(rawStyles.values, rawStyles.units);
+        this.validateValue(attribute, newStyles[attribute]);
 
-                if (!attributePattern.hasUnit) {
-                    rawStyles.units.splice(index, 0, '')
-                }
-            }
+        // const attributePattern = find(attributePatterns, (item) => item.name === rawStyles.attributes[0]);
+        //
+        // if (attributePattern) {
+        //     if (!attributePattern.hasUnit) {
+        //         rawStyles.units.splice(index, 0, '')
+        //     }
+        // }
 
-
-            if (rawStyles.units[index]) {
-                if(!isObject(cssValues.default(Utils.camelCaseToDash(attribute), valueParser(rawStyles.values[index] + rawStyles.units[index])))) {
-                    newStyles[attribute] = rawStyles.values[index] + rawStyles.units[index];
-                }
-            }
-            else {
-                if(!isObject(cssValues.default(Utils.camelCaseToDash(attribute), valueParser(rawStyles.values[index])))) {
-                    newStyles[attribute] = rawStyles.values[index];
-                }
-
-            }
-
-        }.bind(this));
+        // result.newStyles = this.setStyle(attribute, rawStyles.values[index], rawStyles.units[index], newStyles);
 
         return newStyles;
     }

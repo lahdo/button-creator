@@ -20,3 +20,20 @@
 form {
     margin-top: -19px;
 }
+
+.storyInputView .form-group {
+    margin-bottom: 10px;
+}
+
+a {
+    color: #7ab6ec;
+}
+
+.storyInputView a:hover, .storyInputView a:focus {
+    text-decoration: initial;
+    color: #7ab6ec;
+}
+
+.make-not-shown {
+    display: none;
+}

@@ -87,4 +87,8 @@ export default [
         'from': 'padding top',
         'to': 'padding-top'
     },
+    {
+        'from': 'border width',
+        'to': 'border-width'
+    },
 ]

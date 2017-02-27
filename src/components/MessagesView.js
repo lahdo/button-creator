@@ -29,20 +29,22 @@ export default class MessagesView extends Component {
                     <Row>
                         <div className="codeView">
                             <Col md={8} mdOffset={2}>
-                                <div ref={(el) => { this.messagesContainer = el; }}
-                                     className={"chat custom-scroll " + (this.props.expandMessages ? 'expanded' : '') }>
-                                    {
-                                        this.props.messages.map(function (message, i) {
-                                            return (
-                                                <div className="bubbleContainer" key={i}>
-                                                    <div className={"bubble " + message.sender}>
-                                                        {message.body}
+                                    <div ref={(el) => {
+                                        this.messagesContainer = el;
+                                    }}
+                                         className={"chat custom-scroll " + (this.props.expandMessages ? 'expanded' : '') }>
+                                        {
+                                            this.props.messages.map(function (message, i) {
+                                                return (
+                                                    <div className="bubbleContainer" key={i}>
+                                                        <div className={"bubble " + message.sender}>
+                                                            {message.body}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            );
-                                        }, this)
-                                    }
-                                </div>
+                                                );
+                                            }, this)
+                                        }
+                                    </div>
                             </Col>
                         </div>
                     </Row>
