@@ -6,4 +6,4 @@ Natural Language Processing is done by [Wit.ai](http://wit.ai).
 Demo:
 <http://lahdo.github.io/button-creator>
 
-![bezier editor](http://i.imgur.com/aCvqDOL.gifv)
+![bezier editor](http://i.imgur.com/aCvqDOL.gif)
