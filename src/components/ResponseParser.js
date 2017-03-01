@@ -1,4 +1,4 @@
-import attributePatterns from '../other/attributePatternsShort';
+var attributePatterns = require('../other/attributePatternsShort').default;
 import {each, isNumber, isObject} from 'lodash';
 import find2 from 'lodash/find';
 import has from 'lodash/has';
@@ -58,10 +58,10 @@ export default class ResponseParser {
     static internalValidation(attribute, value) {
         const attributePattern = find2(attributePatterns, (item) => item.name === attribute);
 
-        window.find2 = find2;
+        // window.find2 = find2;
 
-        window.FFF = attributePatterns;
-        debugger;
+        // window.FFF = attributePatterns;
+        // debugger;
 
         if (attributePattern) {
             return true;
@@ -72,7 +72,8 @@ export default class ResponseParser {
     }
 
     static validateValue(attribute, value) {
-        const validationResult = cssValues.default(Utils.camelCaseToDash(attribute), valueParser(value));
+        attribute = Utils.camelCaseToDash(attribute);
+        const validationResult = cssValues.default(attribute, valueParser(value));
         if (!isObject(validationResult) || this.internalValidation(attribute, value)) {
             return true
         }
@@ -118,7 +119,7 @@ export default class ResponseParser {
         const attribute = rawStyles.attributes[0];
 
         newStyles[attribute] = this.setValue(rawStyles.values, rawStyles.units);
-        this.validateValue(attribute, newStyles[attribute]);
+        this.validateValue(attribute.trim(), newStyles[attribute]);
 
         // const attributePattern = find(attributePatterns, (item) => item.name === rawStyles.attributes[0]);
         //
