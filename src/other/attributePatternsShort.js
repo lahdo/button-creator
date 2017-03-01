@@ -89,6 +89,11 @@ export default [
     },
     {
         ...BASE,
+        'name': 'border-radius'
+        //     border-radius: 50%;
+    },
+    {
+        ...BASE,
         'name': 'border-color',
         'possibleValues': ['transparent', 'initial', 'inherit'],
         'canBeText': true

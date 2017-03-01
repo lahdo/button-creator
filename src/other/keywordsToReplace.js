@@ -1,5 +1,9 @@
 export default [
     {
+        'from': 'border radius',
+        'to': 'border-radius'
+    },
+    {
         'from': 'background color',
         'to': 'background-color'
     },
