@@ -8,14 +8,14 @@ export default class CodeView extends Component {
         return (
             <div>
                 <Grid className="codeView">
-                    <Row>
-                        <div>
-                            <Col md={4} mdOffset={2}>
-                                <h4>Raw Styles</h4>
-                                <pre>{JSON.stringify(this.props.rawStyles, null, 2)}</pre>
-                            </Col>
-                        </div>
-                    </Row>
+                    {/*<Row>*/}
+                        {/*<div>*/}
+                            {/*<Col md={4} mdOffset={2}>*/}
+                                {/*<h4>Raw Styles</h4>*/}
+                                {/*<pre>{JSON.stringify(this.props.rawStyles, null, 2)}</pre>*/}
+                            {/*</Col>*/}
+                        {/*</div>*/}
+                    {/*</Row>*/}
                     <Row>
                         <div>
                             <Col md={4} mdOffset={2}>
