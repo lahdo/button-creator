@@ -15,6 +15,7 @@ import MessageNormalizer from '../components/MessageNormalizer';
 import ResponseParser from '../components/ResponseParser'
 
 const WITAIKEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
+const WITURL = 'https://cors-anywhere.herokuapp.com/https://api.wit.ai';
 const APP = 'app';
 const USER = 'user';
 
@@ -54,7 +55,8 @@ export default class ButtonCreator extends Component {
 
         this.setState({'buttonHtml': initialHtml});
         this.updateStyles(this.initialStyles);
-        this.client = new Wit({accessToken: WITAIKEY});
+        this.client = new Wit({accessToken: WITAIKEY, witURL: WITURL});
+
     }
 
     setMessage(message) {
