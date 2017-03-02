@@ -585,8 +585,6 @@ export default [
     {...BASE, 'name': 'writing-mode'},
     {...BASE, 'name': 'z-index'},
     {...BASE, 'name': 'zoom'}
-
-
 ]
 
 

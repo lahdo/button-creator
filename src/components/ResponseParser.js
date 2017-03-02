@@ -118,8 +118,8 @@ export default class ResponseParser {
 
         const attribute = rawStyles.attributes[0];
 
-        newStyles[attribute] = this.setValue(rawStyles.values, rawStyles.units);
-        this.validateValue(attribute.trim(), newStyles[attribute]);
+        newStyles[attribute.trim()] = this.setValue(rawStyles.values, rawStyles.units);
+        this.validateValue(attribute.trim(), newStyles[attribute.trim()]);
 
         // const attributePattern = find(attributePatterns, (item) => item.name === rawStyles.attributes[0]);
         //
