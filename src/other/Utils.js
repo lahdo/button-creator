@@ -2,29 +2,35 @@ import {each} from 'lodash';
 
 export default class Utils {
     /** Converts background-color -> backgroundColor */
-    static dashToCamelCase(attribute) {
-        return attribute.replace(/-([a-z])/gi, function (s, group1) {
+    static dashToCamelCase(property) {
+        return property.replace(/-([a-z])/gi, function (s, group1) {
             return group1.toUpperCase();
         })
     }
 
     /** Converts backgroundColor -> background-color */
-    static camelCaseToDash(attribute) {
-        return attribute.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+    static camelCaseToDash(property) {
+        return property.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
     }
 
-    /** Converts all attributes in the JSON of styles */
+    /** Converts all properties in the JSON of styles */
     static convertStylesAttributes(styles) {
         const newStyles =  {
             ...styles
         };
-        each(newStyles, function (value, attribute) {
-            const newAttribute = Utils.camelCaseToDash(attribute);
-            newStyles[newAttribute] = newStyles[attribute];
-            if(attribute !== newAttribute) {
-                delete newStyles[attribute];
+        each(newStyles, function (value, property) {
+            const newProperty = Utils.camelCaseToDash(property);
+            newStyles[newProperty] = newStyles[property];
+            if(property !== newProperty) {
+                delete newStyles[property];
             }
         });
         return newStyles;
+    }
+
+    /** Checks if value is numeric */
+    static isNumeric(x) {
+        return !(isNaN(x)) && (typeof x !== "object") &&
+            (x !== Number.POSITIVE_INFINITY) && (x !== Number.NEGATIVE_INFINITY);
     }
 }

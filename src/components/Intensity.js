@@ -1,134 +1,151 @@
+import {round,reverse as reverse} from 'lodash';
+
 const mainDirections = {
     'increase': 'increase',
     'decrease': 'decrease'
 };
 
-const powers = {
-    'power1': 7,
-    'power2': 4.5,
-    'power3': 2,
-    'power4': 1.3
+const levels = {
+    'level1': 0,
+    'level2': 1,
+    'level3': 2,
+    'level4': 3
 };
 
-const possibleDirections = {
-    'bigger': 'bigger',
-    'smaller': 'smaller',
-    'wider': 'wider',
-    'higher': 'higher',
-    'longer': 'longer',
-    'shorter': 'shorter',
-    'less': 'less',
-    'more': 'more',
-    'lighter': 'lighter',
-    'darker': 'darker',
-    'brighter': 'brighter',
-    'larger': 'larger',
-    'fatter': 'fatter',
-    'slimmer': 'slimmer',
-    'greater': 'greater',
-    'taller': 'taller',
-    'increase': 'increase',
-    'decrease': 'decrease'
+const increaseFactors = [3, 1.9, 1.3, 1.05];
+const increaseFactorsReversed = reverse(increaseFactors.slice());
+const decreaseFactors = increaseFactorsReversed.map(item => round(1 / item, 2));
+
+window.FFF = reverse;
+debugger;
+
+//[0.05, 0.2, 0.7, 0.95];
+const factors = {
+    increaseFactors: increaseFactors,
+    decreaseFactors: decreaseFactors
 };
 
-const possibleAdjectives = {
-    'much': 'much',
-    'little': 'little',
-    'lightly': 'lightly',
-    'substantially': 'substantially'
-};
-
-function adjectiveTranslator(adjective, direction) {
-
-}
-
-const adjectivesTranslations = [
+const possibleDirections = [
     {
-        from: possibleDirections.bigger,
-        to: powers.power1
+        name: 'bigger',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'smaller',
+        meaning: mainDirections.decrease
+    },
+    {
+        name: 'wider',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'higher',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'longer',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'shorter',
+        meaning: mainDirections.decrease
+    },
+    {
+        name: 'less',
+        meaning: mainDirections.decrease
+    },
+    {
+        name: 'more',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'lighter',
+        meaning: mainDirections.decrease
+    },
+    {
+        name: 'darker',
+        meaning: mainDirections.decrease
+    },
+    {
+        name: 'brighter',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'larger',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'fatter',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'slimmer',
+        meaning: mainDirections.decrease
+    },
+    {
+        name: 'greater',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'taller',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'increase',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'decrease',
+        meaning: mainDirections.decrease
     }
 ];
 
-const directionTranslations = [
+const defaultAdjective = {
+    name: 'default',
+    meaning: levels.level3
+};
+
+const possibleAdjectives = [
     {
-        from: possibleDirections.bigger,
-        to: mainDirections.increase
+        name: 'default',
+        meaning: levels.level3
     },
     {
-        from: possibleDirections.smaller,
-        to: mainDirections.decrease
+        name: 'much',
+        meaning: levels.level2
     },
     {
-        from: possibleDirections.wider,
-        to: mainDirections.increase
+        name: 'little',
+        meaning: levels.level4
     },
     {
-        from: possibleDirections.higher,
-        to: mainDirections.increase
+        name: 'bit',
+        meaning: levels.level4
     },
     {
-        from: possibleDirections.longer,
-        to: mainDirections.increase
+        name: 'lightly',
+        meaning: levels.level4
     },
     {
-        from: possibleDirections.shorter,
-        to: mainDirections.decrease
+        name: 'substantially',
+        meaning: levels.level1
     },
     {
-        from: possibleDirections.less,
-        to: mainDirections.decrease
+        name: 'significantly',
+        meaning: levels.level1
     },
     {
-        from: possibleDirections.more,
-        to: mainDirections.increase
-    },
-    {
-        from: possibleDirections.lighter,
-        to: mainDirections.decrease
-    },
-    {
-        from: possibleDirections.darker,
-        to: mainDirections.decrease
-    },
-    {
-        from: possibleDirections.brighter,
-        to: mainDirections.increase
-    },
-    {
-        from: possibleDirections.larger,
-        to: mainDirections.increase
-    },
-    {
-        from: possibleDirections.fatter,
-        to: mainDirections.increase
-    },
-    {
-        from: possibleDirections.slimmer,
-        to: mainDirections.decrease
-    },
-    {
-        from: possibleDirections.greater,
-        to: mainDirections.increase
-    },
-    {
-        from: possibleDirections.taller,
-        to: mainDirections.increase
-    },
-    {
-        from: possibleDirections.decrease,
-        to: mainDirections.decrease
-    },
-    {
-        from: possibleDirections.increase,
-        to: mainDirections.increase
-    },
+        name: 'slightly',
+        meaning: levels.level4
+    }
 ];
 
 const intensity = {
+    factors: factors,
     possibleDirections: possibleDirections,
     possibleAdjectives: possibleAdjectives,
-    directionTranslations: directionTranslations,
-    adjectivesTranslations: adjectivesTranslations
+    mainDirections: mainDirections,
+    defaultAdjective: defaultAdjective
 };
 
 export default intensity;

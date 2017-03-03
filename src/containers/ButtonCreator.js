@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {each} from 'lodash';
 import {Wit} from 'node-wit';
-import {find} from 'lodash';
-import has from 'lodash/has';
+// import {each} from 'lodash';
+// import {find} from 'lodash';
+// import has from 'lodash/has';
 
 import Layout from '../components/Layout.js';
 import Footer from '../components/Footer.js';
@@ -13,6 +13,8 @@ import CodeView from '../components/CodeView.js';
 import MessagesView from '../components/MessagesView.js';
 import MessageNormalizer from '../components/MessageNormalizer';
 import ResponseParser from '../components/ResponseParser'
+import RawStylesProcessor from '../components/RawStylesProcessor'
+import RawIntensityProcessor from '../components/RawIntensityProcessor'
 import Intents from '../components/Intents'
 
 const WITAIKEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
@@ -43,6 +45,9 @@ export default class ButtonCreator extends Component {
             'fontSize': '23px'
         };
 
+        this.initialHtml = '<button class="my-button"></button>';
+        this.witConfig = {accessToken: WITAIKEY, witURL: WITURL};
+
         this.setMessage = this.setMessage.bind(this);
         this.understandMessage = this.understandMessage.bind(this);
         this.processMessage = this.processMessage.bind(this);
@@ -58,11 +63,9 @@ export default class ButtonCreator extends Component {
     }
 
     componentDidMount() {
-        const initialHtml = '<button class="my-button"></button>';
-
-        this.setState({'buttonHtml': initialHtml});
+        this.setState({'buttonHtml': this.initialHtml});
         this.updateStyles(this.initialStyles);
-        this.client = new Wit({accessToken: WITAIKEY, witURL: WITURL});
+        this.client = new Wit(this.witConfig);
     }
 
     setMessage(message) {
@@ -88,6 +91,7 @@ export default class ButtonCreator extends Component {
     parse(response) {
         try {
             const intent = ResponseParser.getIntent(response);
+
             if (intent === Intents.possibleIntents.changeAttribute) {
                 this.processChangeAttribute(response);
             }
@@ -107,18 +111,25 @@ export default class ButtonCreator extends Component {
         const rawStyles = ResponseParser.getRawStyles(response);
         this.setState({'rawStyles': rawStyles});
 
-        const newStyles = ResponseParser.processRawStyles(rawStyles);
-        this.setState({'currentStyle': newStyles});
-        this.updateStyles(newStyles);
+        const normalizedRawStyle = RawStylesProcessor.normalize(rawStyles);
+        this.setState({'currentStyle': normalizedRawStyle});
+
+        const newStyle = RawStylesProcessor.process(normalizedRawStyle);
+        this.updateStyles(newStyle);
+
         this.updateMessages('Done!', APP);
     }
 
     processChangeIntensity(response) {
-        const rawIntensity = ResponseParser.getRawValues(response);
+        const rawIntensity = ResponseParser.getRawIntensity(response);
         this.setState({'rawIntensity': rawIntensity});
 
-        const newStyles = ResponseParser.processRawIntensity(rawIntensity, this.state.currentStyle);
-        this.updateStyles(newStyles);
+        const normalizedStyle = RawIntensityProcessor.process(rawIntensity, this.state.currentStyle);
+        this.setState({'currentStyle': normalizedStyle});
+
+        const newStyle = RawStylesProcessor.process(normalizedStyle);
+        this.updateStyles(newStyle);
+
         this.updateMessages('Done!', APP);
     }
 

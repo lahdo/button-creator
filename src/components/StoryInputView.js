@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Grid, Row, Col, Button, FormControl, FormGroup, ControlLabel, HelpBlock} from 'react-bootstrap';
+import {Grid, Row, Col, FormControl, FormGroup, ControlLabel} from 'react-bootstrap';
 import "./StoryInputView.module.css"
 
 export default class StoryInputView extends Component {
