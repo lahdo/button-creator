@@ -14,6 +14,10 @@ export default class CodeView extends Component {
                                 <h4>Raw Styles</h4>
                                 <pre>{JSON.stringify(this.props.rawStyles, null, 2)}</pre>
                             </Col>
+                        <Col md={4}>
+                            <h4>Raw Values</h4>
+                            <pre>{JSON.stringify(this.props.rawValues, null, 2)}</pre>
+                        </Col>
                         </div>
                     </Row>
                     <Row>
@@ -24,8 +28,8 @@ export default class CodeView extends Component {
                                     .my-button
                                     {
                                         JSON.stringify(
-                                            Utils.convertStylesAttributes(this.props.styles)
-                                            , null, 2)
+                                            Utils.convertStylesAttributes(this.props.styles),
+                                            null, 2)
                                     }
                                 </pre>
                             </Col>

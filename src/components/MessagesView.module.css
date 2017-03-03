@@ -28,14 +28,14 @@
     padding: 10px 18px;
 }
 
-.user {
+.app {
     background-color: #0084ff;
     border-radius: 2px 15px 15px 15px;
     margin: 0 7px 0 0;
     float: left;
 }
 
-.app {
+.user {
     background-color: #00BA78;
     border-radius: 15px 2px 15px 15px;
     margin: 0 7px 0 0;

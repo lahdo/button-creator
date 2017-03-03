@@ -13,6 +13,7 @@ import CodeView from '../components/CodeView.js';
 import MessagesView from '../components/MessagesView.js';
 import MessageNormalizer from '../components/MessageNormalizer';
 import ResponseParser from '../components/ResponseParser'
+import Intents from '../components/Intents'
 
 const WITAIKEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
 const WITURL = 'https://cors-anywhere.herokuapp.com/https://api.wit.ai';
@@ -27,6 +28,8 @@ export default class ButtonCreator extends Component {
             buttonHtml: '',
             styles: {},
             rawStyles: {},
+            rawIntensity: {},
+            currentStyle: {},
             message: '',
             messages: [],
             context: {},
@@ -48,6 +51,10 @@ export default class ButtonCreator extends Component {
         this.parse = this.parse.bind(this);
         this.expandMessages = this.expandMessages.bind(this);
         this.clearStyles = this.clearStyles.bind(this);
+        this.processChangeAttribute = this.processChangeAttribute.bind(this);
+        this.processChangeIntensity = this.processChangeIntensity.bind(this);
+        this.processChangeClass = this.processChangeClass.bind(this);
+
     }
 
     componentDidMount() {
@@ -56,7 +63,6 @@ export default class ButtonCreator extends Component {
         this.setState({'buttonHtml': initialHtml});
         this.updateStyles(this.initialStyles);
         this.client = new Wit({accessToken: WITAIKEY, witURL: WITURL});
-
     }
 
     setMessage(message) {
@@ -72,25 +78,57 @@ export default class ButtonCreator extends Component {
     understandMessage(message) {
         this.client.message(message, {})
             .then((response) => {
-                    this.parse(response);
-                }, () => {
-                    this.updateMessages('Sorry, we couldn\'t connect to our language parser', APP);
-                })
+                this.parse(response);
+            }, () => {
+                this.updateMessages('sorry, we couldn\'t connect to our language parser', APP);
+            })
             .catch(console.error);
     }
 
     parse(response) {
         try {
-            const rawStyles = ResponseParser.getRawStyles(response);
-            this.setState({'rawStyles': rawStyles});
-
-            const newStyles = ResponseParser.processRawStyles(rawStyles);
-            this.updateStyles(newStyles);
-            this.updateMessages('Done!', APP);
+            const intent = ResponseParser.getIntent(response);
+            if (intent === Intents.possibleIntents.changeAttribute) {
+                this.processChangeAttribute(response);
+            }
+            else if (intent === Intents.possibleIntents.changeValue) {
+                this.processChangeIntensity(response);
+            }
+            else if (intent === Intents.possibleIntents.changeClass) {
+                this.processChangeClass(response);
+            }
         }
         catch (error) {
             this.updateMessages(error.message, APP);
         }
+    }
+
+    processChangeAttribute(response) {
+        const rawStyles = ResponseParser.getRawStyles(response);
+        this.setState({'rawStyles': rawStyles});
+
+        const newStyles = ResponseParser.processRawStyles(rawStyles);
+        this.setState({'currentStyle': newStyles});
+        this.updateStyles(newStyles);
+        this.updateMessages('Done!', APP);
+    }
+
+    processChangeIntensity(response) {
+        const rawIntensity = ResponseParser.getRawValues(response);
+        this.setState({'rawIntensity': rawIntensity});
+
+        const newStyles = ResponseParser.processRawIntensity(rawIntensity, this.state.currentStyle);
+        this.updateStyles(newStyles);
+        this.updateMessages('Done!', APP);
+    }
+
+    processChangeClass(response) {
+        const rawStyles = ResponseParser.getRawStyles(response);
+        this.setState({'rawStyles': rawStyles});
+
+        const newStyles = ResponseParser.processRawStyles(rawStyles);
+        this.updateStyles(newStyles);
+        this.updateMessages('Done!', APP);
     }
 
     expandMessages() {
@@ -99,7 +137,7 @@ export default class ButtonCreator extends Component {
 
     clearStyles() {
         this.setState({'styles': this.initialStyles});
-        this.updateMessages('Restored default styles', APP);
+        this.updateMessages('restored default styles', APP);
     }
 
     updateMessages(message, sender) {
@@ -139,6 +177,7 @@ export default class ButtonCreator extends Component {
                                 clearStyles={this.clearStyles}
                                 message={this.state.message}/>
                 <CodeView rawStyles={this.state.rawStyles}
+                          rawValues={this.state.rawValues}
                           buttonHtml={this.state.buttonHtml}
                           styles={this.state.styles}/>
                 <Footer />
