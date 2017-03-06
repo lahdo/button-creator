@@ -1,10 +1,7 @@
 import {isEmpty} from 'lodash';
 import DirectionTranslator from './IntensityTranslator'
-import RawStylesProcessor from '../components/RawStylesProcessor'
 import Intensity from '../components/Intensity'
 import Utils from '../other/Utils';
-// import Color from 'color';
-// import RGBColor from '../other/rgbcolor';
 import tinycolor from 'tinycolor2';
 
 export default class RawIntensityProcessor {
@@ -24,7 +21,6 @@ export default class RawIntensityProcessor {
         newStyles.property = previousStyle.property;
         newStyles.values = newValues;
 
-        // newStyles[previousStyle.property] = RawStylesProcessor.setValue(newValues);
         console.log(newValues);
 
         return newStyles;
@@ -68,19 +64,13 @@ export default class RawIntensityProcessor {
             return value * factor;
         }
         else if (potentialColor.isValid()) {
-            if(factor < 1) {
-                // factor -= 0.3;
-                // console.log('color change: ', 40 - (25*factor));
+            if (factor < 1) {
                 const lightValue = this.getLightValue(factor, false);
-                console.log('color change: ', lightValue);
-                return potentialColor.lighten(lightValue); //100*factor);
+                return potentialColor.lighten(lightValue);
             }
             else {
-                // factor += 0.3;
-                // console.log('color change: ', (1/factor)*25);
                 const lightValue = this.getLightValue(factor, true);
-                console.log('color change: ', lightValue);
-                return potentialColor.darken(lightValue); //(1/factor)*100);
+                return potentialColor.darken(lightValue);
             }
         }
         else {
@@ -88,12 +78,11 @@ export default class RawIntensityProcessor {
         }
     }
 
-    static getLightValue(factor, isdark=true) {
+    static getLightValue(factor, isdark = true) {
         const HIGH = 20;
-        const MID = 17.5;
         const LOW = 15;
 
-        if(isdark) {
+        if (isdark) {
             if (factor > 1.5) {
                 return HIGH;
             }

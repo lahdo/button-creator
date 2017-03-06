@@ -1,4 +1,4 @@
-import {round,reverse as reverse} from 'lodash';
+import {round, reverse} from 'lodash';
 
 const mainDirections = {
     'increase': 'increase',
