@@ -48,11 +48,12 @@ export default class ButtonCreator extends Component {
             'fontSize': '23px'
         };
 
-        this.initialHtml = '<button class="my-button"></button>';
+
         this.witConfig = {accessToken: WITAIKEY, witURL: WITURL};
 
         this.setMessage = this.setMessage.bind(this);
         this.setButtonText = this.setButtonText.bind(this);
+        this.setButtonHtml = this.setButtonHtml.bind(this);
         this.understandMessage = this.understandMessage.bind(this);
         this.processMessage = this.processMessage.bind(this);
         this.updateStyles = this.updateStyles.bind(this);
@@ -67,13 +68,19 @@ export default class ButtonCreator extends Component {
     }
 
     componentDidMount() {
-        this.setState({'buttonHtml': this.initialHtml});
+        this.setButtonHtml();
         this.updateStyles(this.initialStyles);
         this.client = new Wit(this.witConfig);
     }
 
     setButtonText(text) {
         this.setState({'buttonText': text});
+    }
+
+    setButtonHtml(text = '') {
+        const newHtml = `<button class="my-button">${ text }</button>`;
+
+        this.setState({'buttonHtml': newHtml});
     }
 
     setMessage(message) {
@@ -155,9 +162,11 @@ export default class ButtonCreator extends Component {
 
     processChangeText(response) {
         const rawText = ResponseParser.getRawText(response);
-
         const newText = RawTextProcessor.process(rawText);
+
         this.setButtonText(newText);
+        this.setButtonHtml(newText);
+
         this.updateMessages('Done!', APP);
     }
 
