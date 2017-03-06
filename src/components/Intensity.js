@@ -13,8 +13,7 @@ const levels = {
 };
 
 const increaseFactors = [3, 1.9, 1.3, 1.05];
-const increaseFactorsReversed = reverse(increaseFactors.slice());
-const decreaseFactors = increaseFactorsReversed.map(item => round(1 / item, 2));
+const decreaseFactors = increaseFactors.slice().map(item => round(1 / item, 2));
 
 window.FFF = reverse;
 debugger;
@@ -63,8 +62,16 @@ const possibleDirections = [
         meaning: mainDirections.decrease
     },
     {
-        name: 'darker',
+        name: 'lighten',
         meaning: mainDirections.decrease
+    },
+    {
+        name: 'darker',
+        meaning: mainDirections.increase
+    },
+    {
+        name: 'darken',
+        meaning: mainDirections.increase
     },
     {
         name: 'brighter',
