@@ -75,4 +75,18 @@ export default class ResponseParser {
 
         return rawIntensities;
     }
+
+    static getRawText(response) {
+        const rawText = {
+            texts: []
+        };
+
+        if (has(response.entities, 'message_body')) {
+            each(response.entities.message_body, function (text) {
+                rawText.texts.push(text.value);
+            });
+        }
+
+        return rawText;
+    }
 }

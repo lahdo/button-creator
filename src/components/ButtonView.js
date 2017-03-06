@@ -16,7 +16,7 @@ export default class ButtonView extends Component {
                                     onClick={this.open}
                                     block={true}
                                     bsStyle="default">
-                                    Your Button
+                                    {this.props.buttonText}
                                 </Button>
                             </div>
                         </Col>

@@ -12,9 +12,11 @@ import StoryInputView from '../components/StoryInputView.js';
 import CodeView from '../components/CodeView.js';
 import MessagesView from '../components/MessagesView.js';
 import MessageNormalizer from '../components/MessageNormalizer';
-import ResponseParser from '../components/ResponseParser'
-import RawStylesProcessor from '../components/RawStylesProcessor'
-import RawIntensityProcessor from '../components/RawIntensityProcessor'
+import ResponseParser from '../components/ResponseParser';
+import RawStylesProcessor from '../components/RawStylesProcessor';
+import RawIntensityProcessor from '../components/RawIntensityProcessor';
+import RawTextProcessor from '../components/RawTextProcessor';
+
 import Intents from '../components/Intents'
 
 const WITAIKEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
@@ -33,6 +35,7 @@ export default class ButtonCreator extends Component {
             rawIntensity: {},
             currentStyle: {},
             message: '',
+            buttonText: 'Your Button',
             messages: [],
             context: {},
             expandMessages: false,
@@ -49,6 +52,7 @@ export default class ButtonCreator extends Component {
         this.witConfig = {accessToken: WITAIKEY, witURL: WITURL};
 
         this.setMessage = this.setMessage.bind(this);
+        this.setButtonText = this.setButtonText.bind(this);
         this.understandMessage = this.understandMessage.bind(this);
         this.processMessage = this.processMessage.bind(this);
         this.updateStyles = this.updateStyles.bind(this);
@@ -66,6 +70,10 @@ export default class ButtonCreator extends Component {
         this.setState({'buttonHtml': this.initialHtml});
         this.updateStyles(this.initialStyles);
         this.client = new Wit(this.witConfig);
+    }
+
+    setButtonText(text) {
+        this.setState({'buttonText': text});
     }
 
     setMessage(message) {
@@ -100,6 +108,9 @@ export default class ButtonCreator extends Component {
             }
             else if (intent === Intents.possibleIntents.changeClass) {
                 this.processChangeClass(response);
+            }
+            else if (intent === Intents.possibleIntents.changeText) {
+                this.processChangeText(response);
             }
         }
         catch (error) {
@@ -142,6 +153,14 @@ export default class ButtonCreator extends Component {
         this.updateMessages('Done!', APP);
     }
 
+    processChangeText(response) {
+        const rawText = ResponseParser.getRawText(response);
+
+        const newText = RawTextProcessor.process(rawText);
+        this.setButtonText(newText);
+        this.updateMessages('Done!', APP);
+    }
+
     expandMessages() {
         this.setState({'expandMessages': true});
     }
@@ -178,6 +197,7 @@ export default class ButtonCreator extends Component {
                 <NavBar />
                 <ButtonView buttonHtml={this.state.buttonHtml}
                             styles={this.state.styles}
+                            buttonText={this.state.buttonText}
                             message={this.state.message}/>
                 <MessagesView messages={this.state.messages}
                               expandMessages={this.state.expandMessages}/>
