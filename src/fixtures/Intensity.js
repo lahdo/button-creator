@@ -1,4 +1,4 @@
-import {round, reverse} from 'lodash';
+import {round} from 'lodash';
 
 const mainDirections = {
     'increase': 'increase',
@@ -14,9 +14,6 @@ const levels = {
 
 const increaseFactors = [3, 1.9, 1.3, 1.05];
 const decreaseFactors = increaseFactors.slice().map(item => round(1 / item, 2));
-
-window.FFF = reverse;
-debugger;
 
 //[0.05, 0.2, 0.7, 0.95];
 const factors = {

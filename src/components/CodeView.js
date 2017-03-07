@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Col, Grid, Row} from 'react-bootstrap';
 import "./CodeView.module.css"
-import Utils from '../other/Utils'
+import * as Utils from '../lib/Utils'
 
 export default class CodeView extends Component {
     render() {

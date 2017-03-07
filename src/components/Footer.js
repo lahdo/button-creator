@@ -9,7 +9,7 @@ export default class Footer extends Component {
                     <Row>
                         <Col md={12}>
                             <hr/>
-                            <p>MIT Licensed | Marcin Rapacz, February 2017</p>
+                            <p>MIT Licensed | Marcin Rapacz, March 2017</p>
                             <hr/>
                         </Col>
                     </Row>

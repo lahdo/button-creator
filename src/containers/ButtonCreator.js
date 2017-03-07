@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux'
 import {Wit} from 'node-wit';
-// import {each} from 'lodash';
-// import {find} from 'lodash';
-// import has from 'lodash/has';
 
 import Layout from '../components/Layout.js';
 import Footer from '../components/Footer.js';
@@ -11,48 +9,25 @@ import ButtonView from '../components/ButtonView.js';
 import StoryInputView from '../components/StoryInputView.js';
 import CodeView from '../components/CodeView.js';
 import MessagesView from '../components/MessagesView.js';
-import MessageNormalizer from '../components/MessageNormalizer';
-import ResponseParser from '../components/ResponseParser';
-import RawStylesProcessor from '../components/RawStylesProcessor';
-import RawIntensityProcessor from '../components/RawIntensityProcessor';
-import RawTextProcessor from '../components/RawTextProcessor';
 
-import Intents from '../components/Intents'
+import Intents from '../fixtures/Intents'
 
-const WITAIKEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
-const WITURL = 'https://cors-anywhere.herokuapp.com/https://api.wit.ai';
-const APP = 'app';
-const USER = 'user';
+import * as MessageNormalizer from '../lib/MessageNormalizer';
+import * as ResponseParser from '../lib/parsers/ResponseParser';
+import * as RawStylesProcessor from '../lib/processors/RawStylesProcessor';
+import * as RawIntensityProcessor from '../lib/processors/RawIntensityProcessor';
+import * as RawTextProcessor from '../lib/processors/RawTextProcessor';
+import * as actions from '../actions/index';
+import * as constants from "./appConstants";
 
-export default class ButtonCreator extends Component {
+
+class ButtonCreator extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            buttonHtml: '',
-            styles: {},
-            rawStyles: {},
-            rawIntensity: {},
-            currentStyle: {},
-            message: '',
-            buttonText: 'Your Button',
-            messages: [],
-            context: {},
-            expandMessages: false,
-        };
-
-        this.initialStyles = {
-            'width': '240px',
-            'height': '80px',
-            'borderWidth': '3px',
-            'fontSize': '23px'
-        };
-
-
-        this.witConfig = {accessToken: WITAIKEY, witURL: WITURL};
+        this.witConfig = {accessToken: constants.WITAI_KEY, witURL: constants.WIT_URL};
 
         this.setMessage = this.setMessage.bind(this);
-        this.setButtonText = this.setButtonText.bind(this);
         this.setButtonHtml = this.setButtonHtml.bind(this);
         this.understandMessage = this.understandMessage.bind(this);
         this.processMessage = this.processMessage.bind(this);
@@ -61,36 +36,33 @@ export default class ButtonCreator extends Component {
         this.parse = this.parse.bind(this);
         this.expandMessages = this.expandMessages.bind(this);
         this.clearStyles = this.clearStyles.bind(this);
-        this.processChangeAttribute = this.processChangeAttribute.bind(this);
-        this.processChangeIntensity = this.processChangeIntensity.bind(this);
-        this.processChangeClass = this.processChangeClass.bind(this);
-
+        this.processAttributeChange = this.processAttributeChange.bind(this);
+        this.processIntensityChange = this.processIntensityChange.bind(this);
+        this.processClassChange = this.processClassChange.bind(this);
     }
 
     componentDidMount() {
-        this.setButtonHtml();
-        this.updateStyles(this.initialStyles);
+        const buttonHtml = this.setButtonHtml();
+        this.props.setButtonHtml(buttonHtml);
+
+        const styles = this.updateStyles(constants.INITIAL_STYLES);
+        this.props.setStyles(styles);
+
         this.client = new Wit(this.witConfig);
     }
 
-    setButtonText(text) {
-        this.setState({'buttonText': text});
-    }
-
     setButtonHtml(text = '') {
-        const newHtml = `<button class="my-button">${ text }</button>`;
-
-        this.setState({'buttonHtml': newHtml});
+        return `<button class="my-button">${ text }</button>`;
     }
 
     setMessage(message) {
-        this.setState({'message': message});
+        this.props.setMessage(message);
     }
 
     processMessage(message) {
         const normalizedMessage = MessageNormalizer.normalize(message);
         this.understandMessage(normalizedMessage);
-        this.updateMessages(message, USER);
+        this.updateMessages(message, constants.USER);
     }
 
     understandMessage(message) {
@@ -98,7 +70,7 @@ export default class ButtonCreator extends Component {
             .then((response) => {
                 this.parse(response);
             }, () => {
-                this.updateMessages('sorry, we couldn\'t connect to our language parser', APP);
+                this.updateMessages('sorry, we couldn\'t connect to our language parser', constants.APP);
             })
             .catch(console.error);
     }
@@ -107,124 +79,174 @@ export default class ButtonCreator extends Component {
         try {
             const intent = ResponseParser.getIntent(response);
 
-            if (intent === Intents.possibleIntents.changeAttribute) {
-                this.processChangeAttribute(response);
-            }
-            else if (intent === Intents.possibleIntents.changeValue) {
-                this.processChangeIntensity(response);
-            }
-            else if (intent === Intents.possibleIntents.changeClass) {
-                this.processChangeClass(response);
-            }
-            else if (intent === Intents.possibleIntents.changeText) {
-                this.processChangeText(response);
+            switch (intent) {
+                case Intents.possibleIntents.changeAttribute:
+                    this.processAttributeChange(response);
+                    break;
+                case  Intents.possibleIntents.changeValue:
+                    this.processIntensityChange(response);
+                    break;
+                case Intents.possibleIntents.changeClass:
+                    this.processClassChange(response);
+                    break;
+                case Intents.possibleIntents.changeText:
+                    this.processTextChange(response);
+                    break;
+                default:
+                    break;
             }
         }
         catch (error) {
-            this.updateMessages(error.message, APP);
+            this.updateMessages(error.message, constants.APP);
         }
     }
 
-    processChangeAttribute(response) {
+    processAttributeChange(response) {
         const rawStyles = ResponseParser.getRawStyles(response);
-        this.setState({'rawStyles': rawStyles});
-
         const normalizedRawStyle = RawStylesProcessor.normalize(rawStyles);
-        this.setState({'currentStyle': normalizedRawStyle});
-
         const newStyle = RawStylesProcessor.process(normalizedRawStyle);
-        this.updateStyles(newStyle);
+        const newStyles = this.updateStyles(newStyle);
 
-        this.updateMessages('Done!', APP);
+        this.props.updateStyles(rawStyles, normalizedRawStyle, newStyles);
+
+        this.updateMessages('Done!', constants.APP);
     }
 
-    processChangeIntensity(response) {
+    processIntensityChange(response) {
         const rawIntensity = ResponseParser.getRawIntensity(response);
-        this.setState({'rawIntensity': rawIntensity});
-
-        const normalizedStyle = RawIntensityProcessor.process(rawIntensity, this.state.currentStyle);
-        this.setState({'currentStyle': normalizedStyle});
-
+        const normalizedStyle = RawIntensityProcessor.process(rawIntensity, this.props.state.currentStyle);
         const newStyle = RawStylesProcessor.process(normalizedStyle);
-        this.updateStyles(newStyle);
+        const newStyles = this.updateStyles(newStyle);
 
-        this.updateMessages('Done!', APP);
+        this.props.updateRawIntensity(rawIntensity, normalizedStyle, newStyles);
+
+        this.updateMessages('Done!', constants.APP);
     }
 
-    processChangeClass(response) {
-        const rawStyles = ResponseParser.getRawStyles(response);
-        this.setState({'rawStyles': rawStyles});
-
-        const newStyles = ResponseParser.processRawStyles(rawStyles);
-        this.updateStyles(newStyles);
-        this.updateMessages('Done!', APP);
+    processClassChange(response) {
+        // const rawStyles = ResponseParser.getRawStyles(response);
+        // const newStyles = ResponseParser.processRawStyles(rawStyles);
+        //
+        // this.props.setRawStyles(rawStyles);
+        // this.updateStyles(newStyles);
+        //
+        // this.updateMessages('Done!', constants.APP);
     }
 
-    processChangeText(response) {
+    processTextChange(response) {
         const rawText = ResponseParser.getRawText(response);
         const newText = RawTextProcessor.process(rawText);
+        const buttonHtml = this.setButtonHtml(newText);
 
-        this.setButtonText(newText);
-        this.setButtonHtml(newText);
+        this.props.updateButtonProps(buttonHtml, newText);
 
-        this.updateMessages('Done!', APP);
+        this.updateMessages('Done!', constants.APP);
     }
 
     expandMessages() {
-        this.setState({'expandMessages': true});
+        this.props.setExpandMessages(true);
     }
 
     clearStyles() {
-        this.setState({'styles': this.initialStyles});
-        this.updateMessages('restored default styles', APP);
+        this.props.setStyles(constants.INITIAL_STYLES);
+        this.updateMessages('restored default styles', constants.APP);
     }
 
     updateMessages(message, sender) {
-        const messages = [...this.state.messages];
+        const messages = [...this.props.state.messages];
         messages.push({
             'body': message,
             'sender': sender
         });
-        this.setState({'messages': messages});
+        this.props.setMessages(messages);
     }
 
     updateStyles(newStyles) {
         const styles = {
-            ...this.state.styles
+            ...this.props.state.styles
         };
 
         Object.keys(newStyles).forEach((key) => {
             styles[key] = newStyles[key];
         });
 
-        this.setState({'styles': styles});
+        return styles;
     }
 
     render() {
         return (
             <Layout>
                 <NavBar />
-                <ButtonView buttonHtml={this.state.buttonHtml}
-                            styles={this.state.styles}
-                            buttonText={this.state.buttonText}
-                            message={this.state.message}/>
-                <MessagesView messages={this.state.messages}
-                              expandMessages={this.state.expandMessages}/>
+                <ButtonView buttonHtml={this.props.state.buttonHtml}
+                            styles={this.props.state.styles}
+                            buttonText={this.props.state.buttonText}
+                            message={this.props.state.message}/>
+                <MessagesView messages={this.props.state.messages}
+                              expandMessages={this.props.state.expandMessages}/>
                 <StoryInputView setMessage={this.setMessage}
                                 processMessage={this.processMessage}
                                 expandMessages={this.expandMessages}
-                                showClearStylesButton={this.state.expandMessages}
+                                showClearStylesButton={this.props.state.expandMessages}
                                 clearStyles={this.clearStyles}
-                                message={this.state.message}/>
-                <CodeView rawStyles={this.state.rawStyles}
-                          rawValues={this.state.rawValues}
-                          buttonHtml={this.state.buttonHtml}
-                          styles={this.state.styles}/>
+                                message={this.props.state.message}/>
+                <CodeView rawStyles={this.props.state.rawStyles}
+                          rawValues={this.props.state.rawValues}
+                          buttonHtml={this.props.state.buttonHtml}
+                          styles={this.props.state.styles}/>
                 <Footer />
             </Layout>
         );
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        state: state,
+    };
+};
 
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        setButtonText: (buttonText) => {
+            dispatch(actions.setButtonText(buttonText))
+        },
+        setRawStyles: (rawStyles) => {
+            dispatch(actions.setRawStyles(rawStyles))
+        },
+        setStyles: (styles) => {
+            dispatch(actions.setStyles(styles))
+        },
+        setRawIntensity: (rawIntensity) => {
+            dispatch(actions.setRawIntensity(rawIntensity))
+        },
+        setCurrentStyle: (currentStyle) => {
+            dispatch(actions.setCurrentStyle(currentStyle))
+        },
+        setMessages: (messages) => {
+            dispatch(actions.setMessages(messages))
+        },
+        setMessage: (message) => {
+            dispatch(actions.setMessage(message))
+        },
+        setButtonHtml: (buttonHtml) => {
+            dispatch(actions.setButtonHtml(buttonHtml))
+        },
+        setExpandMessages: (expandMessages) => {
+            dispatch(actions.setExpandMessages(expandMessages))
+        },
+        updateStyles: (rawStyles, currentStyle, styles) => {
+            dispatch(actions.updateStyles(rawStyles, currentStyle, styles))
+        },
+        updateRawIntensity: (rawIntensity, currentStyle, styles) => {
+            dispatch(actions.updateRawIntensity(rawIntensity, currentStyle, styles))
+        },
+        updateButtonProps: (buttonHtml, buttonText) => {
+            dispatch(actions.updateButtonProps(buttonHtml, buttonText))
+        }
+    }
+};
 
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ButtonCreator);
