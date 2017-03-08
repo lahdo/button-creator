@@ -3,7 +3,8 @@ const intents = {
         changeValue: 'changeValue',
         changeAttribute: 'changeAttribute',
         changeClass: 'changeClass',
-        changeText: 'changeText'
+        changeText: 'changeText',
+        changeLink: 'changeLink'
     },
     defaultIntent: 'changeAttribute'
 };

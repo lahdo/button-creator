@@ -1,4 +1,4 @@
-import keywordsToReplace from '../fixtures/keywordsToReplace';
+import keywordsToReplace from '../fixtures/KeywordsToReplace';
 
     /** Changes background color -> background-color, and deletes unwanted characters  */
     export function normalize(message) {

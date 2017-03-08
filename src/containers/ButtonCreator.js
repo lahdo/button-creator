@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {Wit} from 'node-wit';
 
 import Layout from '../components/Layout.js';
@@ -17,8 +17,10 @@ import * as ResponseParser from '../lib/parsers/ResponseParser';
 import * as RawStylesProcessor from '../lib/processors/RawStylesProcessor';
 import * as RawIntensityProcessor from '../lib/processors/RawIntensityProcessor';
 import * as RawTextProcessor from '../lib/processors/RawTextProcessor';
+import * as RawClassProcessor from '../lib/processors/RawClassProcessor';
+import * as RawUrlProcessor from '../lib/processors/RawUrlProcessor';
 import * as actions from '../actions/index';
-import * as constants from "./appConstants";
+import * as constants from "./AppConstants";
 
 
 class ButtonCreator extends Component {
@@ -28,7 +30,7 @@ class ButtonCreator extends Component {
         this.witConfig = {accessToken: constants.WITAI_KEY, witURL: constants.WIT_URL};
 
         this.setMessage = this.setMessage.bind(this);
-        this.setButtonHtml = this.setButtonHtml.bind(this);
+        this.getButtonHtml = this.getButtonHtml.bind(this);
         this.understandMessage = this.understandMessage.bind(this);
         this.processMessage = this.processMessage.bind(this);
         this.updateStyles = this.updateStyles.bind(this);
@@ -39,10 +41,11 @@ class ButtonCreator extends Component {
         this.processAttributeChange = this.processAttributeChange.bind(this);
         this.processIntensityChange = this.processIntensityChange.bind(this);
         this.processClassChange = this.processClassChange.bind(this);
+        this.processLinkChange = this.processLinkChange.bind(this);
     }
 
     componentDidMount() {
-        const buttonHtml = this.setButtonHtml();
+        const buttonHtml = this.getButtonHtml();
         this.props.setButtonHtml(buttonHtml);
 
         const styles = this.updateStyles(constants.INITIAL_STYLES);
@@ -51,8 +54,12 @@ class ButtonCreator extends Component {
         this.client = new Wit(this.witConfig);
     }
 
-    setButtonHtml(text = '') {
-        return `<button class="my-button">${ text }</button>`;
+    getButtonHtml(text, cssClass, url) {
+        text = text ? text : this.props.state.buttonText;
+        cssClass = cssClass ? cssClass : this.props.state.buttonCssClass;
+        url = url ? url : this.props.state.buttonUrl;
+
+        return `<button class="${ cssClass }" onclick="location.href = '${ url }';">${ text }</button>`;
     }
 
     setMessage(message) {
@@ -92,6 +99,9 @@ class ButtonCreator extends Component {
                 case Intents.possibleIntents.changeText:
                     this.processTextChange(response);
                     break;
+                case Intents.possibleIntents.changeLink:
+                    this.processLinkChange(response);
+                    break;
                 default:
                     break;
             }
@@ -123,22 +133,32 @@ class ButtonCreator extends Component {
         this.updateMessages('Done!', constants.APP);
     }
 
+    processLinkChange(response) {
+        const rawUrl = ResponseParser.getRawUrl(response);
+        const newUrl = RawUrlProcessor.process(rawUrl);
+        const buttonHtml = this.getButtonHtml(this.props.state.buttonText, this.props.state.buttonCssClass, newUrl);
+
+        this.props.updateButtonProps(buttonHtml, this.props.state.buttonText, this.props.state.buttonCssClass, newUrl);
+
+        this.updateMessages('Done!', constants.APP);
+    }
+
     processClassChange(response) {
-        // const rawStyles = ResponseParser.getRawStyles(response);
-        // const newStyles = ResponseParser.processRawStyles(rawStyles);
-        //
-        // this.props.setRawStyles(rawStyles);
-        // this.updateStyles(newStyles);
-        //
-        // this.updateMessages('Done!', constants.APP);
+        const rawClass = ResponseParser.getRawClass(response);
+        const newClass = RawClassProcessor.process(rawClass);
+        const buttonHtml = this.getButtonHtml(this.props.state.buttonText, newClass, this.props.state.buttonUrl);
+
+        this.props.updateButtonProps(buttonHtml, this.props.state.buttonText, newClass, this.props.state.buttonUrl);
+
+        this.updateMessages('Done!', constants.APP);
     }
 
     processTextChange(response) {
         const rawText = ResponseParser.getRawText(response);
         const newText = RawTextProcessor.process(rawText);
-        const buttonHtml = this.setButtonHtml(newText);
+        const buttonHtml = this.getButtonHtml(newText, this.props.state.buttonCssClass, this.props.state.buttonUrl);
 
-        this.props.updateButtonProps(buttonHtml, newText);
+        this.props.updateButtonProps(buttonHtml, newText, this.props.state.buttonCssClass, this.props.state.buttonUrl);
 
         this.updateMessages('Done!', constants.APP);
     }
@@ -180,6 +200,8 @@ class ButtonCreator extends Component {
                 <ButtonView buttonHtml={this.props.state.buttonHtml}
                             styles={this.props.state.styles}
                             buttonText={this.props.state.buttonText}
+                            buttonCssClass={this.props.state.buttonCssClass}
+                            buttonUrl={this.props.state.buttonUrl}
                             message={this.props.state.message}/>
                 <MessagesView messages={this.props.state.messages}
                               expandMessages={this.props.state.expandMessages}/>
@@ -240,8 +262,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         updateRawIntensity: (rawIntensity, currentStyle, styles) => {
             dispatch(actions.updateRawIntensity(rawIntensity, currentStyle, styles))
         },
-        updateButtonProps: (buttonHtml, buttonText) => {
-            dispatch(actions.updateButtonProps(buttonHtml, buttonText))
+        updateButtonProps: (buttonHtml, buttonText, buttonCssClass, buttonUrl) => {
+            dispatch(actions.updateButtonProps(buttonHtml, buttonText, buttonCssClass, buttonUrl))
         }
     }
 };

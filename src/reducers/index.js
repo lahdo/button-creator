@@ -7,8 +7,10 @@ const initialState = {
     currentStyle: {},
     messages: [],
     buttonHtml: '',
-    message: '',
+    buttonCssClass: 'my-button',
     buttonText: 'Your Button',
+    buttonUrl: '',
+    message: '',
     expandMessages: false
 };
 
@@ -77,7 +79,9 @@ export function buttonCreatorApp(state = initialState, action) {
             return {
                 ...state,
                 buttonHtml: action.buttonHtml,
-                buttonText: action.buttonText
+                buttonText: action.buttonText,
+                buttonCssClass: action.buttonCssClass,
+                buttonUrl: action.buttonUrl
             };
         default:
             return state;

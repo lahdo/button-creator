@@ -77,9 +77,9 @@ export function updateRawIntensity(rawIntensity, currentStyle, styles) {
     };
 }
 
-export function updateButtonProps(buttonHtml, buttonText) {
+export function updateButtonProps(buttonHtml, buttonText, buttonCssClass, buttonUrl) {
     return {
         type: actionNames.UPDATE_BUTTON_PROPS,
-        buttonHtml, buttonText
+        buttonHtml, buttonText, buttonCssClass, buttonUrl
     };
 }

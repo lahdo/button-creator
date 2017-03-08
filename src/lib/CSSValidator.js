@@ -1,4 +1,4 @@
-let attributePatterns = require('../fixtures/propertiesPatternsShort').default;
+let attributePatterns = require('../fixtures/PropertiesPatternsShort').default;
 import {isObject} from 'lodash';
 import find2 from 'lodash/find';
 import * as Utils from './Utils'

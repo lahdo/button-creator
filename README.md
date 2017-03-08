@@ -3,6 +3,8 @@ This project aim is to create styles for button from plain text (User Story) inp
 
 Natural Language Processing is done by [Wit.ai](http://wit.ai).
 
+Written with React and Redux.
+
 Demo:
 <http://lahdo.github.io/button-creator>
 

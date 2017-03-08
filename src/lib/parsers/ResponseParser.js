@@ -77,14 +77,54 @@ export function getRawIntensity(response) {
 
 export function getRawText(response) {
     const rawText = {
-        texts: []
+        links: []
     };
 
     if (has(response.entities, 'message_body')) {
         each(response.entities.message_body, function (text) {
-            rawText.texts.push(text.value);
+            rawText.links.push(text.value);
+        });
+    }
+
+    if (has(response.entities, 'value')) {
+        each(response.entities.value, function (text) {
+            rawText.links.push(text.value);
         });
     }
 
     return rawText;
+}
+
+export function getRawClass(response) {
+    const rawClass = {
+        cssClasses: []
+    };
+
+    if (has(response.entities, 'message_body')) {
+        each(response.entities.message_body, function (cssClass) {
+            rawClass.cssClasses.push(cssClass.value);
+        });
+    }
+
+    if (has(response.entities, 'value')) {
+        each(response.entities.value, function (cssClass) {
+            rawClass.cssClasses.push(cssClass.value);
+        });
+    }
+
+    return rawClass;
+}
+
+export function getRawUrl(response) {
+    const rawUrl = {
+        urls: []
+    };
+
+    if (has(response.entities, 'url')) {
+        each(response.entities.url, function (url) {
+            rawUrl.urls.push(url.value);
+        });
+    }
+
+    return rawUrl;
 }

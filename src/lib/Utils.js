@@ -32,3 +32,8 @@ export function isNumeric(potentialNumber) {
     return !(isNaN(potentialNumber)) && (typeof potentialNumber !== "object") &&
         (potentialNumber !== Number.POSITIVE_INFINITY) && (potentialNumber !== Number.NEGATIVE_INFINITY);
 }
+
+/** Converts http://google.pl/ to -> //google.pl */
+export function normalizeUrl(url) {
+    return '//' + url.replace("://", "").replace("https", "").replace("http", "");
+}
