@@ -22,7 +22,6 @@ import * as RawUrlProcessor from '../lib/processors/RawUrlProcessor';
 import * as actions from '../actions/index';
 import * as constants from "./AppConstants";
 
-
 class ButtonCreator extends Component {
     constructor(props) {
         super(props);
@@ -37,11 +36,14 @@ class ButtonCreator extends Component {
         this.updateMessages = this.updateMessages.bind(this);
         this.parse = this.parse.bind(this);
         this.expandMessages = this.expandMessages.bind(this);
+        this.setShowSpeakButton = this.setShowSpeakButton.bind(this);
         this.clearStyles = this.clearStyles.bind(this);
         this.processAttributeChange = this.processAttributeChange.bind(this);
         this.processIntensityChange = this.processIntensityChange.bind(this);
         this.processClassChange = this.processClassChange.bind(this);
         this.processLinkChange = this.processLinkChange.bind(this);
+        this.startRecording = this.startRecording.bind(this);
+        this.stopRecording = this.stopRecording.bind(this);
     }
 
     componentDidMount() {
@@ -52,6 +54,13 @@ class ButtonCreator extends Component {
         this.props.setStyles(styles);
 
         this.client = new Wit(this.witConfig);
+    }
+
+    componentDidUpdate() {
+        if (this.props.recorder.blobs.length) {
+            this.client.sendSpeach(this.props.recorder.blobs[0]).then((response) => console.log(response));
+            console.log(this.props.recorder);
+        }
     }
 
     getButtonHtml(text, cssClass, url) {
@@ -163,8 +172,20 @@ class ButtonCreator extends Component {
         this.updateMessages('Done!', constants.APP);
     }
 
+    startRecording() {
+
+    }
+
+    stopRecording() {
+
+    }
+
     expandMessages() {
         this.props.setExpandMessages(true);
+    }
+
+    setShowSpeakButton(value) {
+        this.props.setShowSpeakButton(value);
     }
 
     clearStyles() {
@@ -205,11 +226,18 @@ class ButtonCreator extends Component {
                             message={this.props.state.message}/>
                 <MessagesView messages={this.props.state.messages}
                               expandMessages={this.props.state.expandMessages}/>
-                <StoryInputView setMessage={this.setMessage}
+                <StoryInputView constants={constants}
+                                updateMessages={this.updateMessages}
+                                setMessage={this.setMessage}
+                                startRecording={this.startRecording}
+                                stopRecording={this.stopRecording}
                                 processMessage={this.processMessage}
                                 expandMessages={this.expandMessages}
+                                showSpeakButton={this.props.state.showSpeakButton}
+                                setShowSpeakButton={this.setShowSpeakButton}
                                 showClearStylesButton={this.props.state.expandMessages}
                                 clearStyles={this.clearStyles}
+                                setExpandMessages={this.props.setExpandMessages}
                                 message={this.props.state.message}/>
                 <CodeView rawStyles={this.props.state.rawStyles}
                           rawValues={this.props.state.rawValues}
@@ -223,7 +251,8 @@ class ButtonCreator extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        state: state,
+        state: state.MainReducer,
+        recorder: state.recorder
     };
 };
 
@@ -256,6 +285,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         setExpandMessages: (expandMessages) => {
             dispatch(actions.setExpandMessages(expandMessages))
         },
+        setShowSpeakButton: (value) => {
+            dispatch(actions.setShowSpeakButton(value))
+        },
         updateStyles: (rawStyles, currentStyle, styles) => {
             dispatch(actions.updateStyles(rawStyles, currentStyle, styles))
         },
@@ -264,6 +296,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         updateButtonProps: (buttonHtml, buttonText, buttonCssClass, buttonUrl) => {
             dispatch(actions.updateButtonProps(buttonHtml, buttonText, buttonCssClass, buttonUrl))
+        },
+        startRecording: () => {
+            // dispatch(recorderStart())
+        },
+        stopRecording: () => {
+            // dispatch(recorderStop());
         }
     }
 };

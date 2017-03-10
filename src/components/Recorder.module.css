@@ -1,0 +1,21 @@
+.set-display-none {
+    display: none;
+}
+
+.inline {
+    display: inline;
+}
+
+.Blink {
+    animation: blinker 1.5s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+    margin-right: 5px;
+}
+
+@keyframes blinker {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

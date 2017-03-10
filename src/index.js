@@ -5,9 +5,9 @@ import './index.css';
 import './bootstrap.css';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import {buttonCreatorApp} from "./reducers/index";
+import reducers from "./reducers/index";
 
-let store = createStore(buttonCreatorApp);
+let store = createStore(reducers);
 
 ReactDOM.render(
     <Provider store={store}>

@@ -1,36 +1,18 @@
 import React, {Component} from 'react';
-import {Grid, Row, Col, FormControl, FormGroup, ControlLabel} from 'react-bootstrap';
+import {Grid, Row, Col} from 'react-bootstrap';
 import "./StoryInputView.module.css"
+import Recorder from './Recorder.js';
+import MessageInput from '../components/MessageInput.js';
 
 export default class StoryInputView extends Component {
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleKeyChange = this.handleKeyChange.bind(this);
         this.clearStyles = this.clearStyles.bind(this);
-    }
-
-    handleChange(event) {
-        this.props.setMessage(event.target.value);
-    }
-
-    handleKeyChange(event) {
-        if (event.key === 'Enter' && this.props.message.trim() !== '') {
-            event.preventDefault();
-            this.props.processMessage(this.props.message);
-            this.props.setMessage('');
-            this.props.expandMessages();
-        }
     }
 
     clearStyles(event) {
         this.props.clearStyles();
-        event.preventDefault();
-    }
-
-    handleSubmit(event) {
         event.preventDefault();
     }
 
@@ -40,31 +22,27 @@ export default class StoryInputView extends Component {
                 <Grid className="storyInputView">
                     <Row>
                         <Col md={8} mdOffset={2}>
-                            <form onSubmit={this.handleSubmit}>
-                                <FormGroup controlId="buttonDescription">
-                                    <ControlLabel> </ControlLabel>
-                                    <FormControl
-                                        onKeyPress={this.handleKeyChange}
-                                        onChange={this.handleChange}
-                                        value={this.props.message}
-                                        autoComplete="off"
-                                        placeholder="How should your button look like?"
-                                        rows="1">
-                                    </FormControl>
-                                    <FormControl.Feedback />
-                                </FormGroup>
-                                <a href="#"
-                                   className={this.props.showClearStylesButton ? '' : 'make-not-shown'}
-                                   onClick={this.clearStyles}>Clear styles</a>
-                                {/*onClick={() => this.props.setMessage(this.props.inputMessage)}*/}
-                                {/*<Button*/}
-                                {/*type="submit"*/}
-                                {/*className="apply pull-right"*/}
-                                {/*block={true}*/}
-                                {/*bsStyle="info">*/}
-                                {/*Apply*/}
-                                {/*</Button>*/}
-                            </form>
+                            <MessageInput setMessage={this.props.setMessage}
+                                          processMessage={this.props.processMessage}
+                                          expandMessages={this.props.expandMessages}
+                                          showClearStylesButton={this.props.expandMessages}
+                                          message={this.props.message}
+                            />
+                            <Recorder constants={this.props.constants}
+                                      updateMessages={this.props.updateMessages}
+                                      processMessage={this.props.processMessage}
+                                      startRecording={this.props.startRecording}
+                                      stopRecording={this.props.stopRecording}
+                                      setShowSpeakButton={this.props.setShowSpeakButton}
+                                      showSpeakButton={this.props.showSpeakButton}
+                                      setExpandMessages={this.props.setExpandMessages}
+                            />
+                            <span className={this.props.showClearStylesButton ? '' : 'set-display-none'}>   |  </span>
+                            <a href="#"
+                               className={this.props.showClearStylesButton ? '' : 'set-display-none'}
+                               onClick={this.clearStyles}>
+                                Clear styles
+                            </a>
                         </Col>
                     </Row>
                 </Grid>

@@ -1,5 +1,6 @@
 const WITAI_KEY = 'PU3QOHZ5YLQ364OR4PVTGLVWO5SKS5K3';
 const WIT_URL = 'https://cors-anywhere.herokuapp.com/https://api.wit.ai';
+// const WIT_URL = 'https://api.wit.ai';
 const APP = 'app';
 const USER = 'user';
 const INITIAL_STYLES = {
@@ -8,7 +9,10 @@ const INITIAL_STYLES = {
     'borderWidth': '3px',
     'fontSize': '23px',
     'marginLeft': 'auto',
-    'marginRight': 'auto'
+    'marginRight': 'auto',
+    'color': '#333333',
+    'backgroundClor': '#ffffff',
+    'borderColor': '#dddddd'
 };
 
 export {
