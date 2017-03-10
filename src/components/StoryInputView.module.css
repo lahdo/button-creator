@@ -37,3 +37,7 @@ a {
 .set-display-none {
     display: none;
 }
+
+.note {
+    color: #d5d5d5;
+}

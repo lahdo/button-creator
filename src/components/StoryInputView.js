@@ -43,6 +43,8 @@ export default class StoryInputView extends Component {
                                onClick={this.clearStyles}>
                                 Clear styles
                             </a>
+                            <p className={'note ' + (this.props.showSpeakButton ? 'set-display-none' : '')}>
+                                Wit.ai speech recognition system don't recognize all of the css properties.</p>
                         </Col>
                     </Row>
                 </Grid>

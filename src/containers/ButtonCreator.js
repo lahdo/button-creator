@@ -42,8 +42,6 @@ class ButtonCreator extends Component {
         this.processIntensityChange = this.processIntensityChange.bind(this);
         this.processClassChange = this.processClassChange.bind(this);
         this.processLinkChange = this.processLinkChange.bind(this);
-        this.startRecording = this.startRecording.bind(this);
-        this.stopRecording = this.stopRecording.bind(this);
     }
 
     componentDidMount() {
@@ -54,13 +52,6 @@ class ButtonCreator extends Component {
         this.props.setStyles(styles);
 
         this.client = new Wit(this.witConfig);
-    }
-
-    componentDidUpdate() {
-        if (this.props.recorder.blobs.length) {
-            this.client.sendSpeach(this.props.recorder.blobs[0]).then((response) => console.log(response));
-            console.log(this.props.recorder);
-        }
     }
 
     getButtonHtml(text, cssClass, url) {
@@ -170,14 +161,6 @@ class ButtonCreator extends Component {
         this.props.updateButtonProps(buttonHtml, newText, this.props.state.buttonCssClass, this.props.state.buttonUrl);
 
         this.updateMessages('Done!', constants.APP);
-    }
-
-    startRecording() {
-
-    }
-
-    stopRecording() {
-
     }
 
     expandMessages() {
