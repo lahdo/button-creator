@@ -59,7 +59,9 @@ class ButtonCreator extends Component {
         cssClass = cssClass ? cssClass : this.props.state.buttonCssClass;
         url = url ? url : this.props.state.buttonUrl;
 
-        return `<button class="${ cssClass }" onclick="location.href = '${ url }';">${ text }</button>`;
+        return `<button class="${ cssClass }" 
+        onclick="location.href = '${ url }';">
+        ${ text }\n</button>`;
     }
 
     setMessage(message) {
