@@ -4,6 +4,8 @@ Converts User Story to CSS styles for a button element.
 ####Demo:
 <http://lahdo.github.io/button-creator>
 
+![bezier editor](http://i.imgur.com/c9nb8Fh.gif)
+
 #### More information
 
 Natural Language Processing and Speech Recognition is provided by [Wit.ai](http://wit.ai). 
@@ -13,11 +15,6 @@ This is just a proof of concept. I have created this app to test wit.ai services
 Please note that Speech Recognition System is not recognizing all css properties and thus is not not working very well.
 
 Application is written in ES6 using React and Redux.
-
-
-![bezier editor](http://i.imgur.com/c9nb8Fh.gif)
-
-
 
 ### Example commands:
 
