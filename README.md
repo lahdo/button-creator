@@ -1,16 +1,18 @@
 ## Button Creator
 Converts user story to CSS styles for a button element.
 
+Demo:
+<http://lahdo.github.io/button-creator>
+
+![bezier editor](http://i.imgur.com/c9nb8Fh.gif)
+
 Natural Language Processing and Speech Recognition is provided by [Wit.ai](http://wit.ai)
 
 Please note that Speech Recognition System is not recognizing all css properties and thus is not not working very well.
 
 Application is written in ES6 using React and Redux.
 
-Demo:
-<http://lahdo.github.io/button-creator>
-
-Possible commands:
+### Example commands:
 
 #### Changing button's link (url):
 
@@ -35,8 +37,6 @@ Possible commands:
 - Change class to my-new-class
 - Set class to my-new-class
 - Class to my-new-class
-
-![bezier editor](http://i.imgur.com/c9nb8Fh.gif)
 
 #### Increasing / decreasing values
 
