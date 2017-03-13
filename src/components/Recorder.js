@@ -60,7 +60,7 @@ export default class Speak extends Component {
         });
 
         mic.onerror = this.tryCatchDecorator((err) => {
-            throw new Error('Sorry there was an error with speech recognition subsystem');
+            throw new Error('To use speech recognition system please allow the site to use your camera and microphone');
         });
 
         mic.connect(this.props.constants.WITAI_KEY);
