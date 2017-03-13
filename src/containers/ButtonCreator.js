@@ -212,6 +212,7 @@ class ButtonCreator extends Component {
                 <MessagesView messages={this.props.state.messages}
                               expandMessages={this.props.state.expandMessages}/>
                 <StoryInputView constants={constants}
+                                debug={this.props.state.debug}
                                 updateMessages={this.updateMessages}
                                 setMessage={this.setMessage}
                                 startRecording={this.startRecording}

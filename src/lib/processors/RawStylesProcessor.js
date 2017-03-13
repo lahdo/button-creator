@@ -1,5 +1,5 @@
-import * as Utils from '../Utils'
-import * as CSSValidator from '../CSSValidator'
+import * as Utils from '../Utils';
+import * as CSSValidator from '../CSSValidator';
 
 export function process(normalizedStyles) {
     const newStyles = {};
@@ -30,11 +30,26 @@ export function hasUnit(value) {
     return Utils.isNumeric(value);
 }
 
+export function normalizeValues(values, units) {
+    values.forEach((value, index, array) => {
+            let [val, unit] = value.match(/[a-zA-Z]+|[0-9]+/g);
+            values[index] = val;
+            if (unit) {
+                units.push(unit);
+            }
+        }
+    );
+
+    return [values, units];
+}
+
 export function normalizeRawStyles(property, values, units) {
     let normalizedRawStyles = {
         property: property,
         values: []
     };
+
+    [values, units] = this.normalizeValues(values, units);
 
     values.forEach((value, index, array) => {
             if (this.hasUnit(value)) {

@@ -9,7 +9,7 @@ export default class CodeView extends Component {
             <div>
                 <Grid className="codeView">
                     <Row>
-                        <div>
+                        <div className={this.props.debug ? '' : 'set-display-none'}>
                             <Col md={4} mdOffset={2}>
                                 <h4>Raw Styles</h4>
                                 <pre>{JSON.stringify(this.props.rawStyles, null, 2)}</pre>

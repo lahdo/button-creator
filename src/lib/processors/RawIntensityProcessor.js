@@ -19,7 +19,6 @@ export function process(rawIntensity, previousStyle) {
 
     newStyles.property = previousStyle.property;
     newStyles.values = newValues;
-
     // console.log(newValues);
 
     return newStyles;

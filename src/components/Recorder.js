@@ -47,7 +47,7 @@ export default class Speak extends Component {
         });
 
         mic.onresult = this.tryCatchDecorator((args) => {
-            const [intent, entities, response] = args;
+            const response = args[2];
 
             if (has(response, 'msg_body') && response.msg_body.length) {
                 const message = wordsToNumbers(response.msg_body) || response.msg_body;

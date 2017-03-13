@@ -12,7 +12,8 @@ const initialState = {
     buttonUrl: '',
     message: '',
     expandMessages: false,
-    showSpeakButton: true
+    showSpeakButton: true,
+    debug: false
 };
 
 export default function MainReducer(state = initialState, action) {

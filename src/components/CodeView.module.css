@@ -1,3 +1,7 @@
 .codeView {
     margin-bottom: 60px;
 }
+
+.set-display-none {
+    display: none;
+}

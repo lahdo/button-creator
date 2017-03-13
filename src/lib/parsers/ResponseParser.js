@@ -47,6 +47,18 @@ export function getRawStyles(response) {
         });
     }
 
+    if (has(response.entities, 'message_body')) {
+        each(response.entities.message_body, function (value) {
+            rawStyles.values.push(value.value);
+        });
+    }
+
+    if (has(response.entities, 'search_query')) {
+        each(response.entities.search_query, function (text) {
+            rawStyles.values.push(text.value);
+        });
+    }
+
     if (rawStyles.properties.length > 1) {
         throw new Error('Please enter only one characteristic at a time');
     }
@@ -80,14 +92,14 @@ export function getRawText(response) {
         links: []
     };
 
-    if (has(response.entities, 'message_body')) {
-        each(response.entities.message_body, function (text) {
+    if (has(response.entities, 'search_query')) {
+        each(response.entities.search_query, function (text) {
             rawText.links.push(text.value);
         });
     }
 
-    if (has(response.entities, 'value')) {
-        each(response.entities.value, function (text) {
+    if (has(response.entities, 'message_body')) {
+        each(response.entities.message_body, function (text) {
             rawText.links.push(text.value);
         });
     }
@@ -100,15 +112,15 @@ export function getRawClass(response) {
         cssClasses: []
     };
 
-    if (has(response.entities, 'message_body')) {
-        each(response.entities.message_body, function (cssClass) {
+    if (has(response.entities, 'search_query')) {
+        each(response.entities.search_query, function (cssClass) {
             rawClass.cssClasses.push(cssClass.value);
         });
     }
 
-    if (has(response.entities, 'value')) {
-        each(response.entities.value, function (cssClass) {
-            rawClass.cssClasses.push(cssClass.value);
+    if (has(response.entities, 'message_body')) {
+        each(response.entities.message_body, function (text) {
+            rawClass.cssClasses.push(text.value);
         });
     }
 
